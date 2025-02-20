@@ -9,14 +9,53 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 
 def load_kiva_data(file_path):
-    """
-    Load the Kiva Loans dataset from a CSV file.
-    """
-    return pd.read_csv(file_path)
+    print(f"Loading Kiva data from {file_path}")
+    try:
+        df = pd.read_csv(file_path, low_memory=False)
+        print(f"Loaded {len(df)} rows from {file_path}")
+        return df
+    except Exception as e:
+        print(f"Error loading Kiva data: {e}")
+        raise
+
+def process_data_in_chunks(file_path, chunk_size=10000):
+    """Process large CSV file in chunks"""
+    X_chunks = []
+    y_chunks = []
+    
+    # Columns to use
+    features = ['loan_amount', 'term_in_months', 'lender_count']
+    
+    # Read CSV in chunks
+    for chunk in pd.read_csv(file_path, chunksize=chunk_size, low_memory=False):
+        try:
+            # Ensure required columns exist
+            if not all(col in chunk.columns for col in features + ['funded_amount']):
+                print(f"Skipping chunk. Missing required columns. Available: {chunk.columns}")
+                continue
+            
+            # Create binary target variable
+            chunk['fully_funded'] = (chunk['funded_amount'] >= chunk['loan_amount']).astype(int)
+            
+            # Prepare features and target
+            X_chunk = chunk[features].fillna(chunk[features].mean())
+            y_chunk = chunk['fully_funded']
+            
+            X_chunks.append(X_chunk)
+            y_chunks.append(y_chunk)
+        
+        except Exception as e:
+            print(f"Error processing chunk: {e}")
+    
+    # Concatenate chunks
+    X = pd.concat(X_chunks, ignore_index=True)
+    y = pd.concat(y_chunks, ignore_index=True)
+    
+    return X, y
 
 def train_kiva_model(kiva_file, model_output):
     """
@@ -29,36 +68,74 @@ def train_kiva_model(kiva_file, model_output):
         posted_time, disbursed_time, funded_time, tags, borrower_genders, repayment_interval, and date.
       - One-hot encodes categorical columns: activity, sector, use, country_code, country, region, and currency.
     """
-    df = load_kiva_data(kiva_file)
-    print("Kiva dataset columns:", df.columns.tolist())
+    X, y = process_data_in_chunks(kiva_file)
     
-    df = df.dropna(subset=['loan_amount', 'funded_amount'])
-    # Create target variable: funded (1) if funded_amount >= loan_amount, else 0
-    df['status'] = df.apply(lambda row: 1 if row['funded_amount'] >= row['loan_amount'] else 0, axis=1)
-    
-    drop_cols = ['id', 'Loan Theme ID', 'Loan Theme Type', 'Partner ID', 'partner_id',
-                 'posted_time', 'disbursed_time', 'funded_time', 'tags', 
-                 'borrower_genders', 'repayment_interval', 'date']
-    for col in drop_cols:
-        if col in df.columns:
-            df = df.drop(columns=[col])
-    
-    categorical_cols = ['activity', 'sector', 'use', 'country_code', 'country', 'region', 'currency']
-    for col in categorical_cols:
-        if col in df.columns:
-            df = pd.get_dummies(df, columns=[col])
-    
-    X = df.drop(columns=['status'])
-    y = df['status']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
     model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(X_train, y_train)
+    model.fit(X_train_scaled, y_train)
     
     with open(model_output, 'wb') as f:
-        pickle.dump(model, f)
+        pickle.dump({
+            'model': model,
+            'scaler': scaler
+        }, f)
     
     print(f"Kiva loan model trained and saved to {model_output}.")
+
+def train_custom_ensemble_model_kiva(kiva_file, ensemble_model_output):
+    """
+    Trains a custom ensemble model on the Kiva dataset.
+    It stacks a RandomForest and a GradientBoosting classifier, then trains a meta-model (Logistic Regression)
+    on their prediction probabilities.
+    """
+    X, y = process_data_in_chunks(kiva_file)
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    rf = RandomForestClassifier(n_estimators=100, random_state=42)
+    gb = GradientBoostingClassifier(n_estimators=100, random_state=42)
+    rf.fit(X_train_scaled, y_train)
+    gb.fit(X_train_scaled, y_train)
+    
+    rf_probs = rf.predict_proba(X_train_scaled)[:, 1].reshape(-1, 1)
+    gb_probs = gb.predict_proba(X_train_scaled)[:, 1].reshape(-1, 1)
+    meta_features = np.hstack((rf_probs, gb_probs))
+    
+    meta_model = LogisticRegression(max_iter=200)
+    meta_model.fit(meta_features, y_train)
+    
+    rf_test_probs = rf.predict_proba(X_test_scaled)[:, 1].reshape(-1, 1)
+    gb_test_probs = gb.predict_proba(X_test_scaled)[:, 1].reshape(-1, 1)
+    meta_test_features = np.hstack((rf_test_probs, gb_test_probs))
+    ensemble_preds = meta_model.predict(meta_test_features)
+    
+    metrics = calculate_kiva_custom_metrics(y_test, ensemble_preds)
+    print("Custom Ensemble Model Kiva Metrics:", metrics)
+    
+    ensemble = {"rf_model": rf, "gb_model": gb, "meta_model": meta_model, "scaler": scaler}
+    with open(ensemble_model_output, 'wb') as f:
+        pickle.dump(ensemble, f)
+    print(f"Custom ensemble model saved to {ensemble_model_output}.")
+
+def calculate_kiva_custom_metrics(y_true, y_pred):
+    """
+    Computes custom composite risk metrics for the Kiva model.
+    Composite Risk Metric (CRM): 0.4 * Precision + 0.4 * Recall + 0.2 * F1 score.
+    """
+    precision = precision_score(y_true, y_pred, zero_division=0)
+    recall = recall_score(y_true, y_pred, zero_division=0)
+    f1 = f1_score(y_true, y_pred, zero_division=0)
+    crm = 0.4 * precision + 0.4 * recall + 0.2 * f1
+    return {"precision": precision, "recall": recall, "f1": f1, "composite_risk_metric": crm}
 
 def train_sentiment_model(sentiment_file, model_output, vectorizer_output, label_encoder_output):
     """
@@ -93,77 +170,6 @@ def train_sentiment_model(sentiment_file, model_output, vectorizer_output, label
     print(f"TF-IDF vectorizer saved to {vectorizer_output}.")
     print(f"Label encoder saved to {label_encoder_output}.")
 
-def calculate_kiva_custom_metrics(y_true, y_pred):
-    """
-    Computes custom composite risk metrics for the Kiva model.
-    Composite Risk Metric (CRM): 0.4 * Precision + 0.4 * Recall + 0.2 * F1 score.
-    """
-    precision = precision_score(y_true, y_pred, zero_division=0)
-    recall = recall_score(y_true, y_pred, zero_division=0)
-    f1 = f1_score(y_true, y_pred, zero_division=0)
-    crm = 0.4 * precision + 0.4 * recall + 0.2 * f1
-    return {"precision": precision, "recall": recall, "f1": f1, "composite_risk_metric": crm}
-
-def calculate_sentiment_custom_metrics(y_true, y_pred):
-    """
-    Computes custom metrics for sentiment models.
-    Sentiment Balance Score (SBS): Average of accuracy and macro F1 score.
-    """
-    acc = accuracy_score(y_true, y_pred)
-    macro_f1 = f1_score(y_true, y_pred, average='macro', zero_division=0)
-    sbs = (acc + macro_f1) / 2
-    return {"accuracy": acc, "macro_f1": macro_f1, "sentiment_balance_score": sbs}
-
-def train_custom_ensemble_model_kiva(kiva_file, ensemble_model_output):
-    """
-    Trains a custom ensemble model on the Kiva dataset.
-    It stacks a RandomForest and a GradientBoosting classifier, then trains a meta-model (Logistic Regression)
-    on their prediction probabilities.
-    """
-    df = load_kiva_data(kiva_file)
-    df = df.dropna(subset=['loan_amount', 'funded_amount'])
-    df['status'] = df.apply(lambda row: 1 if row['funded_amount'] >= row['loan_amount'] else 0, axis=1)
-    
-    drop_cols = ['id', 'Loan Theme ID', 'Loan Theme Type', 'Partner ID', 'partner_id',
-                 'posted_time', 'disbursed_time', 'funded_time', 'tags', 
-                 'borrower_genders', 'repayment_interval', 'date']
-    for col in drop_cols:
-        if col in df.columns:
-            df = df.drop(columns=[col])
-    categorical_cols = ['activity', 'sector', 'use', 'country_code', 'country', 'region', 'currency']
-    for col in categorical_cols:
-        if col in df.columns:
-            df = pd.get_dummies(df, columns=[col])
-    
-    X = df.drop(columns=['status'])
-    y = df['status']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    rf = RandomForestClassifier(n_estimators=100, random_state=42)
-    gb = GradientBoostingClassifier(n_estimators=100, random_state=42)
-    rf.fit(X_train, y_train)
-    gb.fit(X_train, y_train)
-    
-    rf_probs = rf.predict_proba(X_train)[:, 1].reshape(-1, 1)
-    gb_probs = gb.predict_proba(X_train)[:, 1].reshape(-1, 1)
-    meta_features = np.hstack((rf_probs, gb_probs))
-    
-    meta_model = LogisticRegression(max_iter=200)
-    meta_model.fit(meta_features, y_train)
-    
-    rf_test_probs = rf.predict_proba(X_test)[:, 1].reshape(-1, 1)
-    gb_test_probs = gb.predict_proba(X_test)[:, 1].reshape(-1, 1)
-    meta_test_features = np.hstack((rf_test_probs, gb_test_probs))
-    ensemble_preds = meta_model.predict(meta_test_features)
-    
-    metrics = calculate_kiva_custom_metrics(y_test, ensemble_preds)
-    print("Custom Ensemble Model Kiva Metrics:", metrics)
-    
-    ensemble = {"rf_model": rf, "gb_model": gb, "meta_model": meta_model}
-    with open(ensemble_model_output, 'wb') as f:
-        pickle.dump(ensemble, f)
-    print(f"Custom ensemble model saved to {ensemble_model_output}.")
-
 def train_naive_bayes_sentiment_model(sentiment_file, nb_model_output, vectorizer_output, label_encoder_output):
     """
     Trains a sentiment model using Multinomial Naive Bayes.
@@ -196,6 +202,16 @@ def train_naive_bayes_sentiment_model(sentiment_file, nb_model_output, vectorize
     print(f"Naive Bayes sentiment model saved to {nb_model_output}.")
     print(f"TF-IDF vectorizer saved to {vectorizer_output}.")
     print(f"Label encoder saved to {label_encoder_output}.")
+
+def calculate_sentiment_custom_metrics(y_true, y_pred):
+    """
+    Computes custom metrics for sentiment models.
+    Sentiment Balance Score (SBS): Average of accuracy and macro F1 score.
+    """
+    acc = accuracy_score(y_true, y_pred)
+    macro_f1 = f1_score(y_true, y_pred, average='macro', zero_division=0)
+    sbs = (acc + macro_f1) / 2
+    return {"accuracy": acc, "macro_f1": macro_f1, "sentiment_balance_score": sbs}
 
 def expand_dataset_using_ga(df, num_augmented_samples=100, num_generations=10, mutation_rate=0.1):
     """
@@ -436,8 +452,14 @@ def create_ai_agent_model(kiva_file, sentiment_file, agent_model_output):
     return model, vectorizer, le
 
 def main():
-    kiva_file = 'data/raw/kiva_loans.csv'
-    sentiment_file = 'data/raw/sentimentsdataset.csv'
+    print("Starting main function...")
+    # Update file paths
+    kiva_loans_path = 'data/kiva_loans.csv'
+    loan_themes_path = 'data/loan_themes_by_region.csv'
+    mpi_locations_path = 'data/kiva_mpi_region_locations.csv'
+    
+    kiva_file = kiva_loans_path
+    sentiment_file = 'data/sentimentsdataset.csv'
     
     kiva_model_output = 'models/saved_models/kiva_rf_model.pkl'
     ensemble_model_output = 'models/saved_models/kiva_ensemble_model.pkl'
@@ -449,35 +471,60 @@ def main():
     
     os.makedirs(os.path.dirname(kiva_model_output), exist_ok=True)
     os.makedirs(os.path.dirname(vectorizer_output), exist_ok=True)
+    os.makedirs('data/processed', exist_ok=True)
     
-    print("Training Kiva loan model...")
-    train_kiva_model(kiva_file, kiva_model_output)
-    
-    print("Training custom ensemble model for Kiva loans...")
-    train_custom_ensemble_model_kiva(kiva_file, ensemble_model_output)
-    
-    print("Training social media sentiment model (Logistic Regression)...")
-    train_sentiment_model(sentiment_file, sentiment_model_output, vectorizer_output, label_encoder_output)
-    
-    print("Training Naive Bayes sentiment model...")
-    train_naive_bayes_sentiment_model(sentiment_file, nb_model_output, vectorizer_output, label_encoder_output)
-    
-    print("Expanding Kiva dataset using Genetic Algorithm...")
-    df_kiva = load_kiva_data(kiva_file)
-    augmented_df = expand_dataset_using_ga(df_kiva, num_augmented_samples=50, num_generations=5, mutation_rate=0.05)
-    augmented_file = 'data/processed/augmented_kiva.csv'
-    os.makedirs(os.path.dirname(augmented_file), exist_ok=True)
-    augmented_df.to_csv(augmented_file, index=False)
-    print(f"Augmented dataset saved to {augmented_file}.")
-    
-    print("Training RL model for dynamic lending policies...")
-    train_rl_model(num_episodes=500)  
-    
-    create_ai_agent_model(
-        kiva_file='data/kiva_loans.csv',
-        sentiment_file='data/sentiment_data.csv',  
-        agent_model_output='models/ai_agent_model.h5'
-    )
+    try:
+        print(f"Current working directory: {os.getcwd()}")
+        print(f"Attempting to load file: {kiva_loans_path}")
+        print(f"File exists: {os.path.exists(kiva_loans_path)}")
+        
+        # List files in the data directory
+        print("Files in data directory:")
+        print(os.listdir('data'))
+        
+        print("Training Kiva loan model...")
+        train_kiva_model(kiva_file, kiva_model_output)
+        
+        print("Training custom ensemble model for Kiva loans...")
+        train_custom_ensemble_model_kiva(kiva_file, ensemble_model_output)
+        
+        # Optional: Skip sentiment model training if dataset is missing
+        if os.path.exists(sentiment_file):
+            print("Training social media sentiment model (Logistic Regression)...")
+            train_sentiment_model(sentiment_file, sentiment_model_output, vectorizer_output, label_encoder_output)
+            
+            print("Training Naive Bayes sentiment model...")
+            train_naive_bayes_sentiment_model(sentiment_file, nb_model_output, vectorizer_output, label_encoder_output)
+        else:
+            print(f"Sentiment dataset {sentiment_file} not found. Skipping sentiment model training.")
+        
+        print("Expanding Kiva dataset using Genetic Algorithm...")
+        df_kiva = load_kiva_data(kiva_file)
+        augmented_df = expand_dataset_using_ga(df_kiva, num_augmented_samples=50, num_generations=5, mutation_rate=0.05)
+        augmented_file = 'data/processed/augmented_kiva.csv'
+        augmented_df.to_csv(augmented_file, index=False)
+        print(f"Augmented dataset saved to {augmented_file}.")
+        
+        print("Training RL model for dynamic lending policies...")
+        train_rl_model(num_episodes=500)
+        
+        # Optional: Skip AI agent model training if sentiment dataset is missing
+        if os.path.exists('data/sentiment_data.csv'):
+            print("Training Multi-task AI Agent Model...")
+            create_ai_agent_model(
+                kiva_file=kiva_file,
+                sentiment_file='data/sentiment_data.csv',  
+                agent_model_output=agent_model_output
+            )
+        else:
+            print("Sentiment dataset for AI agent not found. Skipping AI agent model training.")
+
+    except Exception as e:
+        print(f"Error: {e}")
+        print(f"Error type: {type(e)}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
