@@ -1,3 +1,5 @@
+*.pkl filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text
 models/saved_models/kiva_rf_model.pkl filter=lfs diff=lfs merge=lfs -text
 models/saved_models/kiva_ensemble_model.pkl filter=lfs diff=lfs merge=lfs -text
 data/kiva_loans.csv filter=lfs diff=lfs merge=lfs -text
