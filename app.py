@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import random
 import pickle
+import joblib
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
@@ -79,11 +80,10 @@ def train_kiva_model(kiva_file, model_output):
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X_train_scaled, y_train)
     
-    with open(model_output, 'wb') as f:
-        pickle.dump({
-            'model': model,
-            'scaler': scaler
-        }, f)
+    joblib.dump({
+        'model': model,
+        'scaler': scaler
+    }, model_output)
     
     print(f"Kiva loan model trained and saved to {model_output}.")
 
@@ -121,21 +121,14 @@ def train_custom_ensemble_model_kiva(kiva_file, ensemble_model_output):
     metrics = calculate_kiva_custom_metrics(y_test, ensemble_preds)
     print("Custom Ensemble Model Kiva Metrics:", metrics)
     
-    ensemble = {"rf_model": rf, "gb_model": gb, "meta_model": meta_model, "scaler": scaler}
-    with open(ensemble_model_output, 'wb') as f:
-        pickle.dump(ensemble, f)
+    joblib.dump({
+        "rf_model": rf, 
+        "gb_model": gb, 
+        "meta_model": meta_model, 
+        "scaler": scaler
+    }, ensemble_model_output)
+    
     print(f"Custom ensemble model saved to {ensemble_model_output}.")
-
-def calculate_kiva_custom_metrics(y_true, y_pred):
-    """
-    Computes custom composite risk metrics for the Kiva model.
-    Composite Risk Metric (CRM): 0.4 * Precision + 0.4 * Recall + 0.2 * F1 score.
-    """
-    precision = precision_score(y_true, y_pred, zero_division=0)
-    recall = recall_score(y_true, y_pred, zero_division=0)
-    f1 = f1_score(y_true, y_pred, zero_division=0)
-    crm = 0.4 * precision + 0.4 * recall + 0.2 * f1
-    return {"precision": precision, "recall": recall, "f1": f1, "composite_risk_metric": crm}
 
 def train_sentiment_model(sentiment_file, model_output, vectorizer_output, label_encoder_output):
     """
@@ -159,12 +152,9 @@ def train_sentiment_model(sentiment_file, model_output, vectorizer_output, label
     clf = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=200)
     clf.fit(X_train, y_train)
     
-    with open(model_output, 'wb') as f:
-        pickle.dump(clf, f)
-    with open(vectorizer_output, 'wb') as f:
-        pickle.dump(vectorizer, f)
-    with open(label_encoder_output, 'wb') as f:
-        pickle.dump(le, f)
+    joblib.dump(clf, model_output)
+    joblib.dump(vectorizer, vectorizer_output)
+    joblib.dump(le, label_encoder_output)
     
     print(f"Sentiment model trained and saved to {model_output}.")
     print(f"TF-IDF vectorizer saved to {vectorizer_output}.")
@@ -192,16 +182,24 @@ def train_naive_bayes_sentiment_model(sentiment_file, nb_model_output, vectorize
     metrics = calculate_sentiment_custom_metrics(y_test, y_pred)
     print("Naive Bayes Sentiment Model Metrics:", metrics)
     
-    with open(nb_model_output, 'wb') as f:
-        pickle.dump(nb_clf, f)
-    with open(vectorizer_output, 'wb') as f:
-        pickle.dump(vectorizer, f)
-    with open(label_encoder_output, 'wb') as f:
-        pickle.dump(le, f)
+    joblib.dump(nb_clf, nb_model_output)
+    joblib.dump(vectorizer, vectorizer_output)
+    joblib.dump(le, label_encoder_output)
     
     print(f"Naive Bayes sentiment model saved to {nb_model_output}.")
     print(f"TF-IDF vectorizer saved to {vectorizer_output}.")
     print(f"Label encoder saved to {label_encoder_output}.")
+
+def calculate_kiva_custom_metrics(y_true, y_pred):
+    """
+    Computes custom composite risk metrics for the Kiva model.
+    Composite Risk Metric (CRM): 0.4 * Precision + 0.4 * Recall + 0.2 * F1 score.
+    """
+    precision = precision_score(y_true, y_pred, zero_division=0)
+    recall = recall_score(y_true, y_pred, zero_division=0)
+    f1 = f1_score(y_true, y_pred, zero_division=0)
+    crm = 0.4 * precision + 0.4 * recall + 0.2 * f1
+    return {"precision": precision, "recall": recall, "f1": f1, "composite_risk_metric": crm}
 
 def calculate_sentiment_custom_metrics(y_true, y_pred):
     """
@@ -318,8 +316,7 @@ def train_rl_model(num_episodes=1000, learning_rate=0.1, discount_factor=0.95, e
             print(f"Episode {episode}: Total Reward: {total_reward}")
     
     rl_model_output = 'models/saved_models/rl_agent.pkl'
-    with open(rl_model_output, 'wb') as f:
-        pickle.dump(Q_table, f)
+    joblib.dump(Q_table, rl_model_output)
     print(f"RL agent trained and saved to {rl_model_output}.")
 
 import tensorflow as tf

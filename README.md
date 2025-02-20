@@ -5,7 +5,7 @@ This project provides a comprehensive analysis of Nityartha loan data using mach
 
 ## Features
 - Loan Funding Probability Predictor
-- Dataset Overview Visualization
+- Data Overview Visualization
 - Loan Distribution Analysis
 - Machine Learning Models:
   - Random Forest Classifier
