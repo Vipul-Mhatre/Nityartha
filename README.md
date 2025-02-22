@@ -52,9 +52,3 @@ streamlit run frontend.py
 
 ## Contributing
 Contributions are welcome! Please submit pull requests or open issues.
-
-## License
-[Specify your license here]
-
-## Contact
-Nityartha Team
