@@ -3,3 +3,5 @@ venv
 env
 models/saved_models/kiva_ensemble_model.pkl
 models/saved_models/kiva_rf_model.pkl
+__pycache__
+implementation.cpython-310.pyc
