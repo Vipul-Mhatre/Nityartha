@@ -104,61 +104,29 @@
 </template>
 
 <script>
+import { loanService } from '@/services/api'
+
 export default {
-  name: 'LoanRecommendationsComponent',
+  name: 'LoanRecommendations',
   data() {
     return {
-      loans: [
-        {
-          id: 1,
-          name: 'Business Startup Loan',
-          amount: 25000,
-          interestRate: 8.5,
-          duration: 24,
-          risk: 'medium',
-          features: [
-            'No collateral required',
-            'Flexible repayment options',
-            'Business mentorship included'
-          ]
-        },
-        {
-          id: 2,
-          name: 'Personal Development Loan',
-          amount: 10000,
-          interestRate: 7.5,
-          duration: 12,
-          risk: 'low',
-          features: [
-            'Low interest rate',
-            'Quick approval',
-            'No prepayment penalties'
-          ]
-        },
-        {
-          id: 3,
-          name: 'Agriculture Investment Loan',
-          amount: 50000,
-          interestRate: 6.5,
-          duration: 36,
-          risk: 'medium',
-          features: [
-            'Seasonal repayment structure',
-            'Technical assistance included',
-            'Weather insurance included'
-          ]
-        }
-      ],
+      loans: [],
+      loading: false,
       searchQuery: '',
       selectedRisk: '',
       sortBy: 'amount',
-      loading: false,
       showModal: false,
       selectedLoan: null,
       application: {
         fullName: '',
         email: '',
         phone: ''
+      },
+      // Mock user data - in a real app, this would come from auth state
+      userData: {
+        id: 1,
+        creditScore: 750,
+        riskLevel: 'medium'
       }
     }
   },
@@ -166,18 +134,21 @@ export default {
     filteredLoans() {
       let filtered = [...this.loans]
       
+      // Apply search filter
       if (this.searchQuery) {
+        const query = this.searchQuery.toLowerCase()
         filtered = filtered.filter(loan => 
-          loan.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          loan.name.toLowerCase().includes(query) ||
+          loan.features.some(f => f.toLowerCase().includes(query))
         )
       }
       
+      // Apply risk filter
       if (this.selectedRisk) {
-        filtered = filtered.filter(loan => 
-          loan.risk === this.selectedRisk
-        )
+        filtered = filtered.filter(loan => loan.risk === this.selectedRisk)
       }
       
+      // Apply sorting
       filtered.sort((a, b) => {
         if (this.sortBy === 'amount') {
           return b.amount - a.amount
@@ -195,24 +166,46 @@ export default {
     async fetchRecommendations() {
       try {
         this.loading = true
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        // Using the mock data already in the loans array
+        const { id: userId, creditScore: score, riskLevel: risk } = this.userData
+        const response = await loanService.getRecommendations(userId, score, risk)
+        
+        // Transform the response into the format our component expects
+        this.loans = response.recommendations.map((rec, index) => ({
+          id: index + 1,
+          name: `Loan Option ${index + 1}`,
+          amount: response.terms.amount * (1 + index * 0.1), // Vary the amounts
+          interestRate: response.terms.rate * (1 - index * 0.05), // Vary the rates
+          duration: 12 * (index + 1), // Vary the durations
+          risk: risk,
+          features: [
+            'Flexible repayment options',
+            'No early repayment fees',
+            response.guidance || 'Personalized terms'
+          ]
+        }))
       } catch (error) {
         console.error('Error fetching loan recommendations:', error)
+        // Show error notification to user
       } finally {
         this.loading = false
       }
     },
+    
     applyForLoan(loan) {
       this.selectedLoan = loan
       this.showModal = true
     },
+    
     async submitApplication() {
       try {
         this.loading = true
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        const applicationData = {
+          loanId: this.selectedLoan.id,
+          userId: this.userData.id,
+          ...this.application
+        }
+        
+        await loanService.submitLoanApplication(applicationData)
         
         this.showModal = false
         this.$emit('application-submitted', {
@@ -228,6 +221,7 @@ export default {
         }
       } catch (error) {
         console.error('Error submitting loan application:', error)
+        // Show error notification to user
       } finally {
         this.loading = false
       }

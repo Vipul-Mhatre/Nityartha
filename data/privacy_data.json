@@ -1,0 +1,223 @@
+{
+  "last_updated": "2025-02-26",
+  "version": "2.1.0",
+  "sections": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "icon": "fas fa-info-circle",
+      "content": {
+        "main_text": "At Micro Finance App, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform.",
+        "info_box": {
+          "text": "Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the application.",
+          "icon": "info-circle"
+        }
+      }
+    },
+    {
+      "id": "information-collection",
+      "title": "Information Collection",
+      "icon": "fas fa-database",
+      "content": {
+        "personal_information": {
+          "title": "Personal Information",
+          "items": [
+            "Name and contact details",
+            "Date of birth and gender",
+            "Government-issued identification",
+            "Employment and income information",
+            "Bank account details"
+          ]
+        },
+        "technical_information": {
+          "title": "Technical Information",
+          "items": [
+            "Device information",
+            "IP address and location data",
+            "Browser type and version",
+            "Operating system",
+            "Usage patterns and preferences"
+          ]
+        }
+      }
+    },
+    {
+      "id": "data-usage",
+      "title": "Data Usage",
+      "icon": "fas fa-tasks",
+      "content": {
+        "usage_categories": [
+          {
+            "title": "Account Management",
+            "icon": "user-check",
+            "description": "Creating and maintaining your account, verifying your identity"
+          },
+          {
+            "title": "Service Improvement",
+            "icon": "chart-line",
+            "description": "Analyzing usage patterns to enhance our platform"
+          },
+          {
+            "title": "Security",
+            "icon": "shield-alt",
+            "description": "Protecting against fraud and unauthorized access"
+          },
+          {
+            "title": "Communication",
+            "icon": "bullhorn",
+            "description": "Sending important updates and promotional content"
+          }
+        ]
+      }
+    },
+    {
+      "id": "data-sharing",
+      "title": "Data Sharing",
+      "icon": "fas fa-share-alt",
+      "content": {
+        "sharing_partners": [
+          {
+            "type": "Banking Partners",
+            "icon": "building",
+            "purpose": "Loan processing"
+          },
+          {
+            "type": "Regulatory Authorities",
+            "icon": "gavel",
+            "purpose": "Legal compliance"
+          },
+          {
+            "type": "Security Providers",
+            "icon": "user-shield",
+            "purpose": "Fraud prevention"
+          },
+          {
+            "type": "Analytics Partners",
+            "icon": "chart-bar",
+            "purpose": "Service improvement"
+          }
+        ],
+        "warning": {
+          "title": "Important Notice",
+          "text": "We never sell your personal information to third parties for marketing purposes. Data sharing is strictly limited to necessary business operations and legal requirements."
+        }
+      }
+    },
+    {
+      "id": "data-security",
+      "title": "Data Security",
+      "icon": "fas fa-shield-alt",
+      "content": {
+        "security_measures": [
+          {
+            "title": "Encryption",
+            "icon": "lock",
+            "description": "256-bit encryption for all data transmission"
+          },
+          {
+            "title": "Secure Storage",
+            "icon": "server",
+            "description": "Data stored in secure, certified facilities"
+          },
+          {
+            "title": "Access Control",
+            "icon": "user-lock",
+            "description": "Strict access controls and authentication"
+          },
+          {
+            "title": "Regular Audits",
+            "icon": "shield-virus",
+            "description": "Periodic security assessments and updates"
+          }
+        ]
+      }
+    },
+    {
+      "id": "user-rights",
+      "title": "User Rights",
+      "icon": "fas fa-user-shield",
+      "content": {
+        "rights": [
+          {
+            "title": "Access",
+            "icon": "eye",
+            "description": "View your personal data"
+          },
+          {
+            "title": "Correction",
+            "icon": "edit",
+            "description": "Update incorrect information"
+          },
+          {
+            "title": "Deletion",
+            "icon": "trash-alt",
+            "description": "Request data deletion"
+          },
+          {
+            "title": "Export",
+            "icon": "download",
+            "description": "Download your data"
+          }
+        ],
+        "exercise_rights": {
+          "title": "Exercise Your Rights",
+          "contact": "privacy@microfinance.com"
+        }
+      }
+    },
+    {
+      "id": "updates",
+      "title": "Updates",
+      "icon": "fas fa-sync",
+      "content": {
+        "main_text": "We may update this privacy policy from time to time. The updated version will be indicated by an updated \"Last updated\" date and the updated version will be effective as soon as it is accessible.",
+        "notification": {
+          "title": "Stay Informed",
+          "text": "Enable notifications to stay informed about privacy policy updates."
+        }
+      }
+    },
+    {
+      "id": "contact",
+      "title": "Contact",
+      "icon": "fas fa-envelope",
+      "content": {
+        "intro_text": "If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.",
+        "contact_methods": [
+          {
+            "type": "Email",
+            "icon": "envelope",
+            "value": "privacy@microfinance.com"
+          },
+          {
+            "type": "Phone",
+            "icon": "phone",
+            "value": "+91-XXX-XXX-XXXX"
+          },
+          {
+            "type": "Address",
+            "icon": "map-marker-alt",
+            "value": "123 Financial District, Mumbai"
+          }
+        ]
+      }
+    }
+  ],
+  "compliance": {
+    "frameworks": [
+      "GDPR",
+      "CCPA",
+      "PDPA"
+    ],
+    "certifications": [
+      "ISO 27001",
+      "SOC 2 Type II"
+    ],
+    "data_retention": {
+      "active_accounts": "Duration of account + 7 years",
+      "closed_accounts": "7 years",
+      "marketing_data": "2 years",
+      "security_logs": "1 year"
+    }
+  }
+}

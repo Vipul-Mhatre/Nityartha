@@ -1,0 +1,81 @@
+{
+  "credit_scores": {
+    "ranges": {
+      "excellent": {
+        "min": 750,
+        "max": 900,
+        "label": "Excellent",
+        "color": "#2ecc71"
+      },
+      "good": {
+        "min": 700,
+        "max": 749,
+        "label": "Good",
+        "color": "#3498db"
+      },
+      "fair": {
+        "min": 650,
+        "max": 699,
+        "label": "Fair",
+        "color": "#f1c40f"
+      },
+      "poor": {
+        "min": 300,
+        "max": 649,
+        "label": "Poor",
+        "color": "#e74c3c"
+      }
+    }
+  },
+  "recent_assessments": [
+    {
+      "id": "CA001",
+      "name": "Amit Patel",
+      "pan": "ABCDE1234F",
+      "annual_income": 800000,
+      "employment_type": "Salaried",
+      "credit_score": 785.5,
+      "risk_level": "Low",
+      "eligible_amount": 500000,
+      "timestamp": "2025-02-25T23:39:45"
+    },
+    {
+      "id": "CA002",
+      "name": "Sneha Reddy",
+      "pan": "FGHIJ5678K",
+      "annual_income": 1200000,
+      "employment_type": "Business Owner",
+      "credit_score": 820.75,
+      "risk_level": "Low",
+      "eligible_amount": 1000000,
+      "timestamp": "2025-02-25T22:39:45"
+    }
+  ],
+  "employment_types": [
+    {
+      "id": "ET001",
+      "label": "Salaried",
+      "risk_multiplier": 1.0
+    },
+    {
+      "id": "ET002",
+      "label": "Self-employed",
+      "risk_multiplier": 1.2
+    },
+    {
+      "id": "ET003",
+      "label": "Business Owner",
+      "risk_multiplier": 1.1
+    }
+  ],
+  "eligibility_rules": {
+    "min_credit_score": 650,
+    "min_annual_income": 300000,
+    "max_multiplier": 5,
+    "interest_rates": {
+      "excellent": 10.5,
+      "good": 12.75,
+      "fair": 14.25
+    }
+  }
+}

@@ -258,26 +258,70 @@ def assess_creditworthiness_endpoint() -> Any:
     return jsonify(result)
 
 
-@app.route('/verify_compliance', methods=['POST'])
-def verify_compliance_endpoint() -> Any:
+@app.route('/verify-compliance', methods=['POST'])
+def verify_compliance_endpoint():
     """
     API endpoint to verify compliance.
     
     Expects JSON with 'user_data', 'document_text', 'transaction_data' (required),
-    and optional 'bio_data', 'contract_id', and 'conditions'.
+    and optional 'bio_data'.
     """
-    req_data = request.json
-    user_data = req_data.get('user_data')
-    document_text = req_data.get('document_text')
-    transaction_data = req_data.get('transaction_data')
-    bio_data = req_data.get('bio_data')
-    contract_id = req_data.get('contract_id')
-    conditions = req_data.get('conditions')
-    if not user_data or not document_text or not transaction_data:
-        return jsonify({'error': 'Missing required data'}), 400
-    result = backend.verify_compliance(user_data, document_text, transaction_data, bio_data, contract_id, conditions)
-    return jsonify(result)
+    try:
+        data = request.get_json()
+        user_data = data.get('user_data')
+        document_text = data.get('document_text')
+        transaction_data = data.get('transaction_data')
+        bio_data = data.get('bio_data')
 
+        if not all([user_data, document_text, transaction_data]):
+            return jsonify({'error': 'Missing required data'}), 400
+
+        # Verify KYC
+        kyc_result = backend.kyc.verify(user_data)
+        
+        # Verify document
+        doc_result = backend.doc_verifier.check(document_text)
+        
+        # Check for AML anomalies
+        aml_result = backend.aml_detector.detect(transaction_data)
+        
+        # Verify biometric if provided
+        bio_result = None
+        if bio_data and user_data.get('idNumber'):
+            bio_result = backend.biometric_kyc.verify(user_data['idNumber'], bio_data)
+
+        response = {
+            'kyc_verified': kyc_result,
+            'document_verified': doc_result,
+            'aml_check_passed': not aml_result,  # aml_result is True if anomaly detected
+            'biometric_verified': bio_result
+        }
+        
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/enroll-biometric', methods=['POST'])
+def enroll_biometric_endpoint():
+    """
+    API endpoint to enroll biometric data.
+    
+    Expects JSON with 'user_id' and 'bio_data' (required).
+    """
+    try:
+        data = request.get_json()
+        user_id = data.get('user_id')
+        bio_data = data.get('bio_data')
+
+        if not all([user_id, bio_data]):
+            return jsonify({'error': 'Missing required data'}), 400
+
+        # Enroll biometric data
+        backend.biometric_kyc.enroll(user_id, bio_data)
+        
+        return jsonify({'message': 'Biometric data enrolled successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/analyze_behavior', methods=['POST'])
 def analyze_behavior_endpoint() -> Any:
@@ -312,24 +356,59 @@ def track_esg_endpoint() -> Any:
     return jsonify(result)
 
 
-@app.route('/recommend_loans', methods=['POST'])
-def recommend_loans_endpoint() -> Any:
+@app.route('/recommend-loans', methods=['POST'])
+def recommend_loans_endpoint():
     """
     API endpoint to recommend loans.
     
     Expects JSON with 'user_id', 'score', 'risk' (required) and optional 'query', 'action', and 'transactions'.
     """
-    req_data = request.json
-    user_id = req_data.get('user_id')
-    score = req_data.get('score')
-    risk = req_data.get('risk')
-    query = req_data.get('query')
-    action = req_data.get('action')
-    transactions = req_data.get('transactions')
-    if user_id is None or score is None or risk is None:
-        return jsonify({'error': 'Missing required data'}), 400
-    result = backend.recommend_loans(user_id, score, risk, query, action, transactions)
-    return jsonify(result)
+    try:
+        data = request.get_json()
+        user_id = data.get('user_id')
+        score = data.get('score')
+        risk = data.get('risk')
+        query = data.get('query', '')
+        action = data.get('action', 0.0)
+        transactions = data.get('transactions', [])
+
+        # Get loan recommendations
+        recommendations = backend.loan_recommender.flow(user_id)
+        
+        # Structure the loans
+        loan_terms = backend.loan_structurer.terms(score, risk)
+        
+        # Get chatbot guidance if query provided
+        guidance = backend.chatbot.match(query) if query else None
+        
+        # Update game score if action provided
+        game_reward = backend.game.play(action) if action != 0.0 else None
+
+        response = {
+            'recommendations': recommendations,
+            'terms': loan_terms,
+            'guidance': guidance,
+            'game_reward': game_reward
+        }
+        
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/submit-loan', methods=['POST'])
+def submit_loan_endpoint():
+    """
+    API endpoint to submit a loan application.
+    
+    Expects JSON with application details.
+    """
+    try:
+        data = request.get_json()
+        # Process application data here
+        # This is a placeholder - you would typically save this to a database
+        return jsonify({'message': 'Application submitted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/train_models', methods=['POST'])
@@ -361,22 +440,6 @@ def set_compliance_rule_endpoint() -> Any:
         return jsonify({'error': 'Missing contract ID or conditions'}), 400
     backend.set_compliance_rule(contract_id, conditions)
     return jsonify({'message': 'Compliance rule set successfully'})
-
-
-@app.route('/enroll_biometric', methods=['POST'])
-def enroll_biometric_endpoint() -> Any:
-    """
-    API endpoint to enroll biometric data.
-    
-    Expects JSON with 'user_id' and 'bio_data' (required).
-    """
-    req_data = request.json
-    user_id = req_data.get('user_id')
-    bio_data = req_data.get('bio_data')
-    if not user_id or not bio_data:
-        return jsonify({'error': 'Missing user ID or biometric data'}), 400
-    backend.enroll_biometric(user_id, bio_data)
-    return jsonify({'message': 'Biometric data enrolled successfully'})
 
 
 if __name__ == '__main__':

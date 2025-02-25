@@ -1,0 +1,152 @@
+{
+  "contact_methods": {
+    "customer_support": {
+      "title": "Customer Support",
+      "description": "24/7 support for all your queries",
+      "icon": "headset",
+      "contacts": {
+        "phone": "+91-XXX-XXX-XXXX",
+        "email": "support@microfinance.com",
+        "hours": "24/7",
+        "response_time": "< 30 minutes"
+      },
+      "live_chat": {
+        "available": true,
+        "wait_time": "2-5 minutes",
+        "languages": ["English", "Hindi"]
+      }
+    },
+    "business_inquiries": {
+      "title": "Business Inquiries",
+      "description": "Partner with us for business growth",
+      "icon": "building",
+      "contacts": {
+        "phone": "+91-XXX-XXX-XXXX",
+        "email": "business@microfinance.com",
+        "hours": "Mon-Fri, 9 AM - 6 PM IST"
+      },
+      "partnership_types": [
+        "Banking Partnerships",
+        "Technology Integration",
+        "Channel Partners",
+        "Investment Opportunities"
+      ]
+    },
+    "media_relations": {
+      "title": "Media Relations",
+      "description": "Press and media inquiries",
+      "icon": "newspaper",
+      "contacts": {
+        "phone": "+91-XXX-XXX-XXXX",
+        "email": "press@microfinance.com",
+        "hours": "Mon-Fri, 9 AM - 6 PM IST"
+      },
+      "press_kit": {
+        "available": true,
+        "includes": [
+          "Company Overview",
+          "Brand Assets",
+          "Press Releases",
+          "Media Coverage"
+        ]
+      }
+    }
+  },
+  "office_locations": {
+    "headquarters": {
+      "name": "Mumbai Headquarters",
+      "type": "Main Office",
+      "address": {
+        "street": "123 Financial District",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001",
+        "country": "India"
+      },
+      "hours": {
+        "weekdays": "9:00 AM - 6:00 PM",
+        "weekends": "Closed"
+      },
+      "contact": {
+        "phone": "+91-XXX-XXX-XXXX",
+        "email": "info@microfinance.com"
+      },
+      "facilities": [
+        "Customer Service Center",
+        "Training Facility",
+        "Conference Rooms"
+      ],
+      "transportation": {
+        "metro": {
+          "station": "Financial District Station",
+          "distance": "500m"
+        },
+        "bus": {
+          "stop": "Central Business Hub",
+          "distance": "200m"
+        },
+        "parking": {
+          "available": true,
+          "type": "Indoor parking",
+          "capacity": "100 vehicles"
+        }
+      }
+    }
+  },
+  "social_media": {
+    "linkedin": {
+      "url": "linkedin.com/company/microfinance",
+      "followers": "50,000+",
+      "content_type": "Company updates & Industry insights"
+    },
+    "twitter": {
+      "url": "twitter.com/microfinance",
+      "followers": "25,000+",
+      "content_type": "News & Updates"
+    },
+    "facebook": {
+      "url": "facebook.com/microfinance",
+      "followers": "100,000+",
+      "content_type": "Community engagement & Success stories"
+    },
+    "instagram": {
+      "url": "instagram.com/microfinance",
+      "followers": "30,000+",
+      "content_type": "Visual stories & Behind the scenes"
+    }
+  },
+  "form_options": {
+    "subjects": [
+      "General Inquiry",
+      "Technical Support",
+      "Business Partnership",
+      "Media Inquiry",
+      "Other"
+    ],
+    "response_time": "24-48 hours",
+    "supported_languages": [
+      "English",
+      "Hindi",
+      "Marathi",
+      "Gujarati",
+      "Tamil"
+    ]
+  },
+  "support_hours": {
+    "customer_service": {
+      "weekdays": "24/7",
+      "weekends": "24/7",
+      "holidays": "24/7"
+    },
+    "technical_support": {
+      "weekdays": "24/7",
+      "weekends": "24/7",
+      "holidays": "24/7"
+    },
+    "business_inquiries": {
+      "weekdays": "9:00 AM - 6:00 PM IST",
+      "weekends": "Closed",
+      "holidays": "Closed"
+    }
+  }
+}

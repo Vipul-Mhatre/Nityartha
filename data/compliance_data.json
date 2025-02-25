@@ -1,0 +1,81 @@
+{
+  "document_types": [
+    {
+      "id": "DOC001",
+      "name": "Aadhaar Card",
+      "required": true,
+      "format": ["jpg", "png", "pdf"],
+      "max_size_mb": 5
+    },
+    {
+      "id": "DOC002",
+      "name": "PAN Card",
+      "required": true,
+      "format": ["jpg", "png", "pdf"],
+      "max_size_mb": 5
+    },
+    {
+      "id": "DOC003",
+      "name": "Passport",
+      "required": false,
+      "format": ["jpg", "png", "pdf"],
+      "max_size_mb": 5
+    },
+    {
+      "id": "DOC004",
+      "name": "Driving License",
+      "required": false,
+      "format": ["jpg", "png", "pdf"],
+      "max_size_mb": 5
+    }
+  ],
+  "recent_verifications": [
+    {
+      "id": "CV001",
+      "name": "Rahul Singh",
+      "aadhaar": "1234-5678-9012",
+      "pan": "ABCDE1234F",
+      "kyc_status": "verified",
+      "aml_status": "passed",
+      "document_status": "pending",
+      "timestamp": "2025-02-25T23:39:45"
+    },
+    {
+      "id": "CV002",
+      "name": "Meera Gupta",
+      "aadhaar": "9876-5432-1098",
+      "pan": "FGHIJ5678K",
+      "kyc_status": "verified",
+      "aml_status": "passed",
+      "document_status": "verified",
+      "timestamp": "2025-02-25T22:39:45"
+    }
+  ],
+  "verification_stats": {
+    "total_verified": 1250,
+    "pending_verifications": 45,
+    "rejection_rate": 5.25,
+    "average_time": 2.5
+  },
+  "aml_checks": {
+    "watchlist_sources": [
+      "RBI Defaulter List",
+      "SEBI Debarred List",
+      "International Sanctions"
+    ],
+    "risk_categories": {
+      "low": {
+        "score_range": [0, 30],
+        "action": "Approve"
+      },
+      "medium": {
+        "score_range": [31, 70],
+        "action": "Review"
+      },
+      "high": {
+        "score_range": [71, 100],
+        "action": "Reject"
+      }
+    }
+  }
+}

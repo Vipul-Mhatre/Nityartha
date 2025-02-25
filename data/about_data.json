@@ -1,0 +1,186 @@
+{
+  "company": {
+    "name": "Micro Finance App",
+    "tagline": "Empowering Financial Inclusion",
+    "description": "Building a sustainable future through innovative micro-finance solutions",
+    "founded": "2020",
+    "headquarters": "Mumbai, Maharashtra, India"
+  },
+  "metrics": {
+    "lives_impacted": {
+      "value": "100,000+",
+      "growth": "25% YoY"
+    },
+    "loans_disbursed": {
+      "value": "₹500Cr+",
+      "growth": "40% YoY"
+    },
+    "cities_covered": {
+      "value": "50+",
+      "growth": "10 new cities in 2024"
+    }
+  },
+  "mission": {
+    "statement": "To democratize access to financial services by leveraging technology and data-driven insights, enabling sustainable growth for underserved communities across India.",
+    "vision": "Creating a financially inclusive society where every individual has access to fair and transparent credit.",
+    "values": [
+      {
+        "name": "Empowerment",
+        "icon": "hand-holding-heart",
+        "description": "Enabling financial independence through accessible credit"
+      },
+      {
+        "name": "Trust",
+        "icon": "shield-alt",
+        "description": "Building lasting relationships through transparency"
+      },
+      {
+        "name": "Sustainability",
+        "icon": "leaf",
+        "description": "Promoting responsible lending practices"
+      },
+      {
+        "name": "Innovation",
+        "icon": "chart-line",
+        "description": "Leveraging technology for better outcomes"
+      }
+    ]
+  },
+  "technology": {
+    "overview": "We combine cutting-edge technology with traditional financial wisdom to create a robust and scalable platform.",
+    "features": [
+      {
+        "name": "AI-Powered Analysis",
+        "icon": "brain",
+        "description": "Advanced algorithms for credit assessment"
+      },
+      {
+        "name": "Secure Platform",
+        "icon": "lock",
+        "description": "Bank-grade security protocols"
+      },
+      {
+        "name": "Real-time Processing",
+        "icon": "tachometer-alt",
+        "description": "Instant loan approvals and disbursals"
+      },
+      {
+        "name": "Data Analytics",
+        "icon": "chart-bar",
+        "description": "Comprehensive reporting and insights"
+      }
+    ]
+  },
+  "leadership": [
+    {
+      "name": "Rajesh Kumar",
+      "position": "Chief Executive Officer",
+      "bio": "20+ years of experience in financial services",
+      "social": {
+        "linkedin": "linkedin.com/in/rajesh-kumar",
+        "twitter": "twitter.com/rajeshkumar"
+      }
+    },
+    {
+      "name": "Priya Singh",
+      "position": "Chief Technology Officer",
+      "bio": "Former Tech Lead at leading fintech companies",
+      "social": {
+        "linkedin": "linkedin.com/in/priya-singh",
+        "twitter": "twitter.com/priyasingh"
+      }
+    },
+    {
+      "name": "Amit Patel",
+      "position": "Chief Risk Officer",
+      "bio": "15+ years in risk management and compliance",
+      "social": {
+        "linkedin": "linkedin.com/in/amit-patel",
+        "twitter": "twitter.com/amitpatel"
+      }
+    },
+    {
+      "name": "Meera Reddy",
+      "position": "Chief Financial Officer",
+      "bio": "Former investment banker with focus on microfinance",
+      "social": {
+        "linkedin": "linkedin.com/in/meera-reddy",
+        "twitter": "twitter.com/meerareddy"
+      }
+    }
+  ],
+  "partners": {
+    "banks": [
+      {
+        "name": "State Bank of India",
+        "type": "Public Sector Bank",
+        "partnership_year": 2020
+      },
+      {
+        "name": "HDFC Bank",
+        "type": "Private Sector Bank",
+        "partnership_year": 2021
+      },
+      {
+        "name": "ICICI Bank",
+        "type": "Private Sector Bank",
+        "partnership_year": 2021
+      },
+      {
+        "name": "Axis Bank",
+        "type": "Private Sector Bank",
+        "partnership_year": 2022
+      }
+    ],
+    "technology": [
+      {
+        "name": "Microsoft Azure",
+        "service": "Cloud Infrastructure"
+      },
+      {
+        "name": "Amazon Web Services",
+        "service": "Data Analytics"
+      }
+    ]
+  },
+  "contact": {
+    "email": {
+      "general": "info@microfinance.com",
+      "support": "support@microfinance.com",
+      "press": "press@microfinance.com"
+    },
+    "phone": {
+      "general": "+91-XXX-XXX-XXXX",
+      "support": "+91-XXX-XXX-XXXX"
+    },
+    "address": {
+      "street": "123 Financial District",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "pincode": "400001"
+    },
+    "social_media": {
+      "linkedin": "linkedin.com/company/microfinance",
+      "twitter": "twitter.com/microfinance",
+      "facebook": "facebook.com/microfinance"
+    }
+  },
+  "awards_recognition": [
+    {
+      "year": 2024,
+      "award": "Best Fintech Innovation",
+      "organization": "India FinTech Awards"
+    },
+    {
+      "year": 2023,
+      "award": "Excellence in Financial Inclusion",
+      "organization": "Banking Tech Awards"
+    },
+    {
+      "year": 2022,
+      "award": "Best Digital Lending Platform",
+      "organization": "India Digital Awards"
+    }
+  ]
+}

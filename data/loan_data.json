@@ -1,0 +1,55 @@
+{
+  "total_loans": {
+    "value": 2400000,
+    "formatted": "₹24,00,000",
+    "change": 12.5
+  },
+  "approval_rate": {
+    "value": 85.25,
+    "formatted": "85.25%",
+    "change": 5.2
+  },
+  "processing_time": {
+    "value": 2.3,
+    "formatted": "2.3 days",
+    "change": -0.5
+  },
+  "risk_score": {
+    "value": "Low",
+    "change": 0
+  },
+  "loan_distribution": {
+    "personal": 35.45,
+    "business": 42.32,
+    "education": 15.78,
+    "home": 6.45
+  },
+  "recent_activities": [
+    {
+      "id": "LA001",
+      "type": "new_application",
+      "name": "Rajesh Kumar",
+      "amount": 50000,
+      "formatted_amount": "₹50,000",
+      "timestamp": "2025-02-25T23:39:45",
+      "status": "pending"
+    },
+    {
+      "id": "LA002",
+      "type": "approval",
+      "name": "Priya Sharma",
+      "amount": 75000,
+      "formatted_amount": "₹75,000",
+      "timestamp": "2025-02-25T20:39:45",
+      "status": "approved"
+    },
+    {
+      "id": "LA003",
+      "type": "alert",
+      "name": "System",
+      "description": "Unusual transaction pattern detected",
+      "timestamp": "2025-02-24T23:39:45",
+      "status": "alert"
+    }
+  ]
+}

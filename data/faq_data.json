@@ -1,0 +1,147 @@
+{
+  "metrics": {
+    "total_articles": "200+",
+    "resolution_rate": "98%",
+    "response_time": "< 2hr",
+    "supported_languages": 5
+  },
+  "categories": [
+    {
+      "name": "Getting Started",
+      "icon": "home",
+      "description": "Basic information about our platform"
+    },
+    {
+      "name": "Loans & Financing",
+      "icon": "money-bill-wave",
+      "description": "Information about loan products and financing options"
+    },
+    {
+      "name": "Account Security",
+      "icon": "user-shield",
+      "description": "Account safety and security measures"
+    },
+    {
+      "name": "Documentation",
+      "icon": "file-alt",
+      "description": "Required documents and verification process"
+    },
+    {
+      "name": "ESG & Compliance",
+      "icon": "chart-line",
+      "description": "Environmental, Social, and Governance policies"
+    },
+    {
+      "name": "Mobile App",
+      "icon": "mobile-alt",
+      "description": "Mobile application features and troubleshooting"
+    },
+    {
+      "name": "Payments",
+      "icon": "wallet",
+      "description": "Payment methods and processing"
+    },
+    {
+      "name": "Support",
+      "icon": "headset",
+      "description": "Customer support and assistance"
+    }
+  ],
+  "faqs": {
+    "getting_started": [
+      {
+        "question": "How do I create an account?",
+        "answer": "Creating an account is simple:\n1. Click on \"Sign Up\" button\n2. Enter your personal details\n3. Verify your email address\n4. Complete KYC verification",
+        "tags": ["account", "registration", "kyc"]
+      },
+      {
+        "question": "What documents do I need for KYC?",
+        "answer": "Required documents include:\n- Government-issued ID (Aadhaar/PAN)\n- Recent passport-size photograph\n- Proof of address\n- Bank statements (last 6 months)",
+        "tags": ["kyc", "documents", "verification"]
+      },
+      {
+        "question": "How long does the approval process take?",
+        "answer": "Our AI-powered system typically processes applications within:\n- Initial assessment: 5-10 minutes\n- Document verification: 1-2 hours\n- Final approval: 24-48 hours",
+        "tags": ["approval", "processing", "timeline"]
+      },
+      {
+        "question": "What are the eligibility criteria?",
+        "answer": "Basic eligibility criteria include:\n- Age: 21-60 years\n- Monthly income: ₹25,000+\n- Credit score: 700+\n- Employment: 2+ years experience",
+        "tags": ["eligibility", "requirements", "criteria"]
+      }
+    ],
+    "loans_financing": [
+      {
+        "question": "What types of loans do you offer?",
+        "answer": "We offer various loan types:\n- Personal Loans\n- Business Loans\n- Education Loans\n- Home Improvement Loans\n- Agricultural Loans",
+        "tags": ["loans", "products", "financing"]
+      },
+      {
+        "question": "What are the interest rates?",
+        "answer": "Interest rates vary based on loan type and credit score:\n- Personal Loans: 10.99% - 24.99%\n- Business Loans: 12.99% - 26.99%\n- Education Loans: 8.99% - 14.99%",
+        "tags": ["interest", "rates", "pricing"]
+      }
+    ],
+    "account_security": [
+      {
+        "question": "How secure is my data?",
+        "answer": "We implement bank-grade security measures:\n- 256-bit encryption\n- Two-factor authentication\n- Biometric verification\n- Regular security audits",
+        "tags": ["security", "data", "privacy"]
+      },
+      {
+        "question": "What if I forget my password?",
+        "answer": "To reset your password:\n1. Click 'Forgot Password'\n2. Enter registered email\n3. Follow reset link in email\n4. Create new password",
+        "tags": ["password", "reset", "security"]
+      }
+    ]
+  },
+  "popular_articles": [
+    {
+      "title": "Security Best Practices",
+      "description": "Learn how to keep your account secure",
+      "icon": "shield-alt",
+      "url": "/articles/security-best-practices",
+      "read_time": "5 mins"
+    },
+    {
+      "title": "Mobile App Guide",
+      "description": "Getting started with our mobile app",
+      "icon": "mobile-alt",
+      "url": "/articles/mobile-app-guide",
+      "read_time": "8 mins"
+    },
+    {
+      "title": "Understanding ESG Scores",
+      "description": "How we calculate ESG ratings",
+      "icon": "chart-pie",
+      "url": "/articles/esg-scores-explained",
+      "read_time": "10 mins"
+    }
+  ],
+  "support": {
+    "channels": [
+      {
+        "name": "Live Chat",
+        "availability": "24/7",
+        "response_time": "< 2 minutes"
+      },
+      {
+        "name": "Email Support",
+        "availability": "24/7",
+        "response_time": "< 24 hours"
+      },
+      {
+        "name": "Phone Support",
+        "availability": "Mon-Sat, 9 AM - 9 PM",
+        "response_time": "Immediate"
+      }
+    ],
+    "languages": [
+      "English",
+      "Hindi",
+      "Marathi",
+      "Gujarati",
+      "Tamil"
+    ]
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "summary": {
+    "active_rules": 25,
+    "rules_change": 3,
+    "compliance_rate": 98.5,
+    "rate_change": 1.5,
+    "violations": 12,
+    "violations_change": -5,
+    "last_updated": "2025-02-25T15:45:00+05:30"
+  },
+  "categories": {
+    "KYC": {
+      "count": 10,
+      "compliance_rate": 99.25,
+      "violations": 2
+    },
+    "AML": {
+      "count": 8,
+      "compliance_rate": 98.75,
+      "violations": 5
+    },
+    "Risk": {
+      "count": 7,
+      "compliance_rate": 97.50,
+      "violations": 5
+    }
+  },
+  "priorities": {
+    "High": {
+      "count": 12,
+      "rules": ["KYC Verification", "Transaction Monitoring", "Fraud Detection"]
+    },
+    "Medium": {
+      "count": 9,
+      "rules": ["Risk Assessment", "Document Verification", "Credit Check"]
+    },
+    "Low": {
+      "count": 4,
+      "rules": ["Periodic Review", "Report Generation"]
+    }
+  },
+  "rules": [
+    {
+      "id": "KYC001",
+      "name": "KYC Verification",
+      "category": "KYC",
+      "description": "Mandatory verification of customer identity through approved government ID",
+      "metrics": {
+        "compliance_rate": 99.5,
+        "violations": 2,
+        "priority": "High"
+      },
+      "requirements": [
+        "Valid government ID",
+        "Proof of address",
+        "Recent photograph"
+      ],
+      "validation_steps": [
+        "Document authenticity check",
+        "Address verification",
+        "Face matching"
+      ]
+    },
+    {
+      "id": "AML001",
+      "name": "Transaction Monitoring",
+      "category": "AML",
+      "description": "Monitor transactions above ₹50,000 for suspicious activity",
+      "metrics": {
+        "compliance_rate": 98.75,
+        "violations": 5,
+        "priority": "High"
+      },
+      "thresholds": {
+        "amount": 50000,
+        "frequency": "daily",
+        "reporting_limit": 1000000
+      },
+      "monitoring_parameters": [
+        "Transaction amount",
+        "Frequency",
+        "Pattern analysis",
+        "Source of funds"
+      ]
+    },
+    {
+      "id": "RISK001",
+      "name": "Risk Assessment",
+      "category": "Risk",
+      "description": "Regular assessment of borrower's credit risk profile",
+      "metrics": {
+        "compliance_rate": 97.25,
+        "violations": 3,
+        "priority": "Medium"
+      },
+      "assessment_criteria": [
+        "Credit score",
+        "Income stability",
+        "Debt ratio",
+        "Payment history"
+      ],
+      "frequency": "quarterly"
+    }
+  ],
+  "recent_updates": [
+    {
+      "type": "add",
+      "description": "New KYC rule added",
+      "timestamp": "2025-02-24T10:30:00+05:30",
+      "user": "admin"
+    },
+    {
+      "type": "modify",
+      "description": "Modified AML threshold",
+      "timestamp": "2025-02-23T14:15:00+05:30",
+      "user": "compliance_officer"
+    },
+    {
+      "type": "delete",
+      "description": "Removed duplicate rule",
+      "timestamp": "2025-02-21T09:45:00+05:30",
+      "user": "admin"
+    }
+  ]
+}

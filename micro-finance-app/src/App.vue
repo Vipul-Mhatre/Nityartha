@@ -1,230 +1,161 @@
 <template>
-  <div id="app">
-    <nav class="main-nav">
-      <div class="nav-brand">
-        <img src="@/assets/logo.png" alt="Logo" class="nav-logo" v-if="false">
-        <span class="brand-text">Nityartha</span>
-      </div>
-      <div class="nav-links">
-        <router-link to="/" class="nav-link">Home</router-link>
-        <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
-        <router-link to="/loan-recommendations" class="nav-link">Loans</router-link>
-        <router-link to="/compliance-verification" class="nav-link">Compliance</router-link>
-      </div>
-      <div class="nav-actions">
-        <button class="theme-toggle" @click="toggleTheme">
-          🌙
-        </button>
-      </div>
-    </nav>
-    
-    <main class="main-content">
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </main>
-
-    <footer class="main-footer">
-      <p>&copy; {{ currentYear }} Nityartha. All rights reserved.</p>
-    </footer>
-  </div>
+  <AppLayout>
+    <router-view></router-view>
+  </AppLayout>
 </template>
 
 <script>
-import { createRouter, createWebHistory } from 'vue-router';
-import FrontendComponent from './components/frontend.vue';
-import DashboardComponent from './components/Dashboard.vue';
-import LoanRecommendations from './components/LoanRecommendations.vue';
-import ComplianceVerification from './components/ComplianceVerification.vue';
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: FrontendComponent,
-  },
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: DashboardComponent,
-  },
-  {
-    path: '/loan-recommendations',
-    name: 'LoanRecommendations',
-    component: LoanRecommendations,
-  },
-  {
-    path: '/compliance-verification',
-    name: 'ComplianceVerification',
-    component: ComplianceVerification,
-  },
-];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
+import AppLayout from '@/components/AppLayout.vue'
 
 export default {
   name: 'App',
-  data() {
-    return {
-      darkMode: false,
-      currentYear: new Date().getFullYear()
-    }
-  },
-  methods: {
-    toggleTheme() {
-      this.darkMode = !this.darkMode;
-      document.body.classList.toggle('dark-theme');
-    }
-  },
-  mounted() {
-    // Check system preference for dark mode
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      this.darkMode = true;
-      document.body.classList.add('dark-theme');
-    }
-  },
-  router,
-};
+  components: {
+    AppLayout
+  }
+}
 </script>
 
 <style>
-:root {
-  --primary-color: #3498db;
-  --secondary-color: #2ecc71;
-  --background-color: #ffffff;
-  --text-color: #2c3e50;
-  --border-color: #e0e0e0;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
-.dark-theme {
-  --primary-color: #3498db;
-  --secondary-color: #2ecc71;
-  --background-color: #1a1a1a;
-  --text-color: #ffffff;
-  --border-color: #333333;
-  --shadow-color: rgba(0, 0, 0, 0.3);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  color: #2c3e50;
+  line-height: 1.6;
 }
 
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --warning-color: #f1c40f;
+  --text-color: #2c3e50;
+  --border-color: #dcdfe6;
+  --background-color: #f8f9fa;
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-.main-nav {
-  background-color: var(--background-color);
-  box-shadow: 0 2px 10px var(--shadow-color);
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
+.btn {
+  display: inline-flex;
   align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.nav-logo {
-  height: 2rem;
-}
-
-.brand-text {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: var(--text-color);
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 6px;
   font-weight: 500;
-  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+}
+
+.btn-secondary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #27ae60;
+}
+
+.btn-danger {
+  background: var(--danger-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c0392b;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--shadow-color);
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   transition: all 0.3s ease;
 }
 
-.nav-link:hover,
-.nav-link.router-link-active {
-  color: var(--primary-color);
-  background-color: var(--shadow-color);
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
-.theme-toggle {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: transform 0.3s ease;
+.alert {
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 1rem;
 }
 
-.theme-toggle:hover {
-  transform: scale(1.1);
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
+.alert-danger {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
-.main-footer {
-  background-color: var(--background-color);
-  border-top: 1px solid var(--border-color);
-  padding: 1rem;
-  text-align: center;
+.alert-warning {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+.grid {
+  display: grid;
+  gap: 1.5rem;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
+@media (min-width: 640px) {
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .main-nav {
-    padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  .main-content {
-    padding: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 </style>

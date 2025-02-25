@@ -1,0 +1,141 @@
+{
+  "metrics": {
+    "success_rate": {
+      "current": 97.5,
+      "change": 2.5,
+      "trend": "positive"
+    },
+    "daily_verifications": {
+      "current": 125,
+      "change": 15,
+      "trend": "positive"
+    },
+    "failed_attempts": {
+      "current": 8,
+      "change": 2,
+      "trend": "negative"
+    },
+    "average_time": {
+      "current": 45,
+      "change": -10,
+      "trend": "positive",
+      "unit": "seconds"
+    }
+  },
+  "verification_methods": {
+    "fingerprint": {
+      "name": "Fingerprint",
+      "standard": "NIST Level 2 Verification",
+      "success_rate": 98.5,
+      "average_time": 30,
+      "features": [
+        "Multi-finger capture",
+        "Liveness detection",
+        "High-resolution scanning"
+      ],
+      "security_level": "high"
+    },
+    "iris_scan": {
+      "name": "Iris Scan",
+      "standard": "ISO/IEC 19794-6",
+      "success_rate": 99.2,
+      "average_time": 45,
+      "features": [
+        "Dual eye capture",
+        "IR illumination",
+        "Auto-focus capability"
+      ],
+      "security_level": "very_high"
+    },
+    "face_recognition": {
+      "name": "Face Recognition",
+      "standard": "3D Liveness Detection",
+      "success_rate": 96.8,
+      "average_time": 35,
+      "features": [
+        "3D mapping",
+        "Anti-spoofing",
+        "Expression analysis"
+      ],
+      "security_level": "high"
+    },
+    "digital_signature": {
+      "name": "Digital Signature",
+      "standard": "eSign with Aadhaar",
+      "success_rate": 99.5,
+      "average_time": 60,
+      "features": [
+        "Aadhaar integration",
+        "Timestamp validation",
+        "Encryption"
+      ],
+      "security_level": "very_high"
+    }
+  },
+  "recent_verifications": [
+    {
+      "user": {
+        "name": "Rahul Sharma",
+        "id": "USER123",
+        "verification_type": "Fingerprint"
+      },
+      "status": "success",
+      "timestamp": "2025-02-26T01:46:45+05:30",
+      "duration": 28
+    },
+    {
+      "user": {
+        "name": "Priya Patel",
+        "id": "USER124",
+        "verification_type": "Face Recognition"
+      },
+      "status": "failed",
+      "timestamp": "2025-02-26T01:43:45+05:30",
+      "duration": 40,
+      "failure_reason": "Low light conditions"
+    },
+    {
+      "user": {
+        "name": "Amit Kumar",
+        "id": "USER125",
+        "verification_type": "Digital Signature"
+      },
+      "status": "success",
+      "timestamp": "2025-02-26T01:38:45+05:30",
+      "duration": 55
+    }
+  ],
+  "security_metrics": {
+    "false_accept_rate": 0.001,
+    "false_reject_rate": 0.1,
+    "spoof_detection_rate": 99.99,
+    "encryption_level": "256-bit",
+    "data_retention": {
+      "duration": "90 days",
+      "encryption": "AES-256",
+      "storage_location": "secure_enclave"
+    },
+    "compliance": {
+      "gdpr": true,
+      "iso_27001": true,
+      "uidai": true
+    }
+  },
+  "hardware_requirements": {
+    "fingerprint": {
+      "resolution": "500 dpi",
+      "sensor_type": "optical",
+      "min_capture_area": "1x1 inch"
+    },
+    "iris": {
+      "camera": "NIR",
+      "resolution": "640x480",
+      "illumination": "IR LED"
+    },
+    "face": {
+      "camera": "RGB-IR",
+      "resolution": "1080p",
+      "min_fps": 30
+    }
+  }
+}

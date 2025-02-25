@@ -1,0 +1,117 @@
+{
+  "user_profile": {
+    "credit_score": 750,
+    "monthly_income": 75000,
+    "existing_emi": 15000,
+    "employment_type": "Salaried",
+    "employment_duration": 5
+  },
+  "eligibility": {
+    "max_amount": 500000,
+    "base_interest_rate": 10.5,
+    "tenure_range": {
+      "min": 12,
+      "max": 60
+    }
+  },
+  "recommended_loans": [
+    {
+      "type": "Personal Loan",
+      "tag": "Best Match",
+      "amount": 300000,
+      "interest_rate": 10.5,
+      "tenure": 36,
+      "emi": 9725.45,
+      "processing_fee": 3000,
+      "total_interest": 50100.25,
+      "features": [
+        "No collateral required",
+        "Flexible repayment options",
+        "Quick disbursement"
+      ]
+    },
+    {
+      "type": "Business Loan",
+      "tag": "Alternative",
+      "amount": 500000,
+      "interest_rate": 12.75,
+      "tenure": 48,
+      "emi": 13250.75,
+      "processing_fee": 5000,
+      "total_interest": 136000.50,
+      "features": [
+        "Higher loan amount",
+        "Tax benefits",
+        "Business expansion"
+      ]
+    }
+  ],
+  "eligibility_criteria": {
+    "age": {
+      "min": 21,
+      "max": 60
+    },
+    "income": {
+      "min_monthly": 25000
+    },
+    "credit_score": {
+      "min": 700
+    },
+    "employment": {
+      "min_experience": 2
+    }
+  },
+  "required_documents": [
+    {
+      "type": "Identity Proof",
+      "documents": ["Aadhaar Card", "PAN Card"],
+      "mandatory": true
+    },
+    {
+      "type": "Address Proof",
+      "documents": ["Passport", "Driving License", "Utility Bill"],
+      "mandatory": true
+    },
+    {
+      "type": "Income Proof",
+      "documents": ["Salary Slips", "Form 16", "ITR"],
+      "mandatory": true
+    },
+    {
+      "type": "Bank Statements",
+      "duration": "6 months",
+      "format": ["PDF", "Excel"],
+      "mandatory": true
+    }
+  ],
+  "interest_rates": {
+    "credit_score_based": {
+      "excellent": {
+        "range": [750, 900],
+        "rate": 10.5
+      },
+      "good": {
+        "range": [700, 749],
+        "rate": 12.75
+      },
+      "fair": {
+        "range": [650, 699],
+        "rate": 14.25
+      }
+    },
+    "employment_based": {
+      "salaried": {
+        "base_rate": 10.5,
+        "max_discount": 0.5
+      },
+      "self_employed": {
+        "base_rate": 11.5,
+        "max_discount": 0.25
+      },
+      "business": {
+        "base_rate": 12.0,
+        "max_discount": 0.75
+      }
+    }
+  }
+}

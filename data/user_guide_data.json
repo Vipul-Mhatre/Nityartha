@@ -1,0 +1,190 @@
+{
+  "sections": {
+    "getting_started": {
+      "title": "Getting Started",
+      "subsections": [
+        {
+          "title": "Overview",
+          "content": "Welcome to the Micro-Finance Application! This comprehensive guide will help you understand and utilize all features of our platform effectively.",
+          "order": 1
+        },
+        {
+          "title": "Quick Start Guide",
+          "content": "Get started with the basic setup and essential features of the application.",
+          "order": 2
+        },
+        {
+          "title": "System Requirements",
+          "content": "Learn about the technical requirements and compatible systems.",
+          "order": 3
+        }
+      ]
+    },
+    "features": {
+      "title": "Features",
+      "subsections": [
+        {
+          "title": "Loan Management",
+          "content": "Process and track loans efficiently with our comprehensive loan management system.",
+          "key_features": [
+            "Loan application processing",
+            "Payment tracking",
+            "Document management",
+            "Status monitoring"
+          ]
+        },
+        {
+          "title": "Creditworthiness",
+          "content": "Evaluate and assess credit scores and financial health.",
+          "key_features": [
+            "Credit score calculation",
+            "Risk assessment",
+            "Financial history analysis",
+            "Recommendation engine"
+          ]
+        },
+        {
+          "title": "ESG Tracking",
+          "content": "Monitor and manage environmental, social, and governance metrics.",
+          "key_features": [
+            "ESG score calculation",
+            "Impact assessment",
+            "Compliance monitoring",
+            "Reporting tools"
+          ]
+        },
+        {
+          "title": "Compliance",
+          "content": "Stay compliant with regulatory requirements and industry standards.",
+          "key_features": [
+            "KYC verification",
+            "AML checks",
+            "Regulatory reporting",
+            "Audit trails"
+          ]
+        }
+      ]
+    },
+    "security": {
+      "title": "Security",
+      "subsections": [
+        {
+          "title": "Biometric Verification",
+          "content": "Understand the biometric authentication methods and security protocols.",
+          "features": [
+            "Fingerprint scanning",
+            "Face recognition",
+            "Iris scanning",
+            "Digital signatures"
+          ]
+        },
+        {
+          "title": "Data Protection",
+          "content": "Learn about our data security measures and encryption protocols.",
+          "features": [
+            "End-to-end encryption",
+            "Secure storage",
+            "Access controls",
+            "Data backup"
+          ]
+        },
+        {
+          "title": "Privacy Settings",
+          "content": "Configure your privacy preferences and data sharing options.",
+          "features": [
+            "Privacy controls",
+            "Data sharing preferences",
+            "Notification settings",
+            "Account security"
+          ]
+        }
+      ]
+    }
+  },
+  "quick_start_steps": [
+    {
+      "step": 1,
+      "title": "Account Setup",
+      "description": "Create and verify your account with basic information",
+      "details": [
+        "Provide personal information",
+        "Verify email address",
+        "Set up security questions",
+        "Create strong password"
+      ]
+    },
+    {
+      "step": 2,
+      "title": "KYC Verification",
+      "description": "Complete the KYC process with required documents",
+      "details": [
+        "Submit identity proof",
+        "Provide address verification",
+        "Complete biometric verification",
+        "Submit additional documents"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Explore Features",
+      "description": "Navigate through different modules and features",
+      "details": [
+        "Tour the dashboard",
+        "Understand key features",
+        "Configure preferences",
+        "Start using the application"
+      ]
+    }
+  ],
+  "video_tutorials": [
+    {
+      "title": "Getting Started",
+      "duration": "5:30",
+      "description": "Overview of the application and basic setup",
+      "topics": [
+        "Application overview",
+        "Account creation",
+        "Basic navigation",
+        "Essential features"
+      ]
+    },
+    {
+      "title": "Loan Application",
+      "duration": "8:45",
+      "description": "Step-by-step guide to loan application process",
+      "topics": [
+        "Application requirements",
+        "Document upload",
+        "Verification process",
+        "Status tracking"
+      ]
+    },
+    {
+      "title": "ESG Tracking",
+      "duration": "6:15",
+      "description": "Understanding ESG metrics and reporting",
+      "topics": [
+        "ESG overview",
+        "Data input",
+        "Score calculation",
+        "Report generation"
+      ]
+    }
+  ],
+  "support_options": {
+    "live_chat": {
+      "available": true,
+      "hours": "24/7",
+      "response_time": "< 5 minutes"
+    },
+    "email_support": {
+      "address": "support@microfinance.com",
+      "response_time": "24 hours"
+    },
+    "phone_support": {
+      "number": "+91-XXX-XXX-XXXX",
+      "hours": "9 AM - 6 PM IST",
+      "languages": ["English", "Hindi"]
+    }
+  }
+}

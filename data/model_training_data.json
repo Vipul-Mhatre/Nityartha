@@ -1,0 +1,114 @@
+{
+  "overall_metrics": {
+    "model_accuracy": 95.75,
+    "accuracy_change": 2.5,
+    "training_time": 1.5,
+    "time_change": 0,
+    "data_points": 25000,
+    "data_points_change": 5000,
+    "last_trained": "2025-02-25T10:30:00+05:30"
+  },
+  "models": [
+    {
+      "name": "Credit Risk Model",
+      "status": "active",
+      "metrics": {
+        "accuracy": 95.75,
+        "precision": 92.50,
+        "recall": 88.25,
+        "f1_score": 90.25
+      },
+      "training_history": [
+        {
+          "epoch": 100,
+          "accuracy": 95.75,
+          "loss": 0.0425
+        }
+      ],
+      "hyperparameters": {
+        "learning_rate": 0.001,
+        "epochs": 100,
+        "batch_size": 32,
+        "optimizer": "Adam"
+      }
+    },
+    {
+      "name": "Fraud Detection",
+      "status": "training",
+      "metrics": {
+        "accuracy": 88.50,
+        "precision": 85.75,
+        "recall": 82.25,
+        "f1_score": 83.75
+      },
+      "training_history": [
+        {
+          "epoch": 75,
+          "accuracy": 88.50,
+          "loss": 0.1150
+        }
+      ],
+      "hyperparameters": {
+        "learning_rate": 0.001,
+        "epochs": 100,
+        "batch_size": 32,
+        "optimizer": "Adam"
+      }
+    },
+    {
+      "name": "ESG Assessment",
+      "status": "inactive",
+      "metrics": {
+        "accuracy": 90.25,
+        "precision": 87.50,
+        "recall": 85.75,
+        "f1_score": 86.50
+      },
+      "training_history": [
+        {
+          "epoch": 100,
+          "accuracy": 90.25,
+          "loss": 0.0975
+        }
+      ],
+      "hyperparameters": {
+        "learning_rate": 0.001,
+        "epochs": 100,
+        "batch_size": 32,
+        "optimizer": "Adam"
+      }
+    }
+  ],
+  "training_data": {
+    "historical_data": {
+      "records": 15000,
+      "time_range": "2020-2024",
+      "features": ["transaction_history", "credit_score", "income"]
+    },
+    "recent_transactions": {
+      "records": 5000,
+      "time_range": "Last 6 months",
+      "features": ["transaction_amount", "frequency", "category"]
+    },
+    "external_data": {
+      "records": 5000,
+      "sources": ["credit_bureaus", "market_data", "social_indicators"],
+      "features": ["market_trends", "industry_risk", "regional_factors"]
+    }
+  },
+  "hyperparameter_ranges": {
+    "learning_rate": {
+      "min": 0.0001,
+      "max": 0.01,
+      "step": 0.0001
+    },
+    "epochs": {
+      "min": 50,
+      "max": 500,
+      "step": 50
+    },
+    "batch_size": {
+      "options": [16, 32, 64, 128]
+    }
+  }
+}

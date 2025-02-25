@@ -1,200 +1,158 @@
 <template>
   <div class="compliance-verification">
     <h2>Compliance Verification</h2>
+    
+    <div v-if="error" class="error-message">
+      {{ error }}
+    </div>
 
-    <div class="compliance-grid">
-      <!-- KYC Verification -->
-      <div class="compliance-card">
-        <h3>KYC Verification</h3>
-        <div class="document-upload">
-          <div 
-            class="upload-zone"
-            @dragover.prevent
-            @drop.prevent="handleDocumentDrop"
-          >
-            <i class="upload-icon">📄</i>
-            <p>Drag and drop documents here or</p>
-            <input 
-              type="file" 
-              @change="handleDocumentSelect" 
-              multiple 
-              accept=".pdf,.jpg,.png"
-              ref="fileInput"
-            >
-            <button @click="$refs.fileInput.click()">
-              Select Files
-            </button>
-          </div>
-
-          <div v-if="documents.length" class="document-list">
-            <div 
-              v-for="(doc, index) in documents" 
-              :key="index"
-              class="document-item"
-            >
-              <span>{{ doc.name }}</span>
-              <button @click="removeDocument(index)" class="remove-btn">
-                ×
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <button 
-          @click="verifyDocuments" 
-          :disabled="!documents.length || loading"
-          class="verify-btn"
+    <form @submit.prevent="verifyCompliance" class="verification-form">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input 
+          id="fullName"
+          v-model="formData.fullName"
+          type="text"
+          required
         >
-          {{ loading ? 'Verifying...' : 'Verify Documents' }}
+      </div>
+
+      <div class="form-group">
+        <label for="idNumber">ID Number</label>
+        <input 
+          id="idNumber"
+          v-model="formData.idNumber"
+          type="text"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="document">Upload Document</label>
+        <input 
+          id="document"
+          type="file"
+          @change="handleFileUpload"
+          accept=".txt,.pdf,.doc,.docx"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="transactions">Transaction History</label>
+        <textarea 
+          id="transactions"
+          v-model="formData.transactionHistory"
+          placeholder="Enter transaction amounts, one per line"
+          rows="5"
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <button 
+          type="button" 
+          @click="handleBiometricCapture"
+          :disabled="loading"
+        >
+          Capture Biometric Data
         </button>
+        <span v-if="formData.biometricData" class="success-text">
+          ✓ Biometric data captured
+        </span>
       </div>
 
-      <!-- Biometric Verification -->
-      <div class="compliance-card">
-        <h3>Biometric Verification</h3>
-        <div class="biometric-section">
-          <div class="biometric-type" v-for="type in biometricTypes" :key="type.id">
-            <h4>{{ type.name }}</h4>
-            <p>{{ type.description }}</p>
-            <button 
-              @click="enrollBiometric"
-              :disabled="loading"
-              class="enroll-btn"
-            >
-              Enroll {{ type.name }}
-            </button>
-          </div>
-        </div>
-      </div>
+      <button 
+        type="submit"
+        :disabled="loading"
+        class="verify-button"
+      >
+        {{ loading ? 'Verifying...' : 'Verify Compliance' }}
+      </button>
+    </form>
 
-      <!-- Compliance Status -->
-      <div class="compliance-card">
-        <h3>Compliance Status</h3>
-        <div class="status-grid">
-          <div 
-            v-for="status in complianceStatus" 
-            :key="status.id"
-            class="status-item"
-            :class="status.status"
-          >
-            <div class="status-icon">
-              {{ status.icon }}
-            </div>
-            <div class="status-info">
-              <h4>{{ status.name }}</h4>
-              <p>{{ status.message }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div v-if="verificationResult" class="verification-result">
+      <h3>Verification Result</h3>
+      <pre>{{ JSON.stringify(verificationResult, null, 2) }}</pre>
     </div>
   </div>
 </template>
 
 <script>
+import { loanService } from '@/services/api'
+
 export default {
-  name: 'ComplianceVerificationComponent',
+  name: 'ComplianceVerification',
   data() {
     return {
       loading: false,
-      documents: [],
-      biometricTypes: [
-        {
-          id: 'fingerprint',
-          name: 'Fingerprint',
-          description: 'Scan your fingerprint for secure verification'
-        },
-        {
-          id: 'facial',
-          name: 'Facial Recognition',
-          description: 'Use your camera for facial verification'
-        }
-      ],
-      complianceStatus: [
-        {
-          id: 'kyc',
-          name: 'KYC Verification',
-          status: 'pending',
-          icon: '⏳',
-          message: 'Awaiting document verification'
-        },
-        {
-          id: 'aml',
-          name: 'AML Check',
-          status: 'pending',
-          icon: '⏳',
-          message: 'Pending verification'
-        },
-        {
-          id: 'biometric',
-          name: 'Biometric Verification',
-          status: 'pending',
-          icon: '⏳',
-          message: 'Not enrolled'
-        }
-      ]
+      formData: {
+        fullName: '',
+        idNumber: '',
+        documentText: '',
+        transactionHistory: '',
+        biometricData: null
+      },
+      verificationResult: null,
+      error: null
     }
   },
   methods: {
-    handleDocumentDrop(event) {
-      const files = event.dataTransfer.files
-      this.addDocuments(files)
-    },
-    handleDocumentSelect(event) {
-      const files = event.target.files
-      this.addDocuments(files)
-    },
-    addDocuments(files) {
-      for (let file of files) {
-        if (this.isValidDocument(file)) {
-          this.documents.push(file)
+    async handleFileUpload(event) {
+      const file = event.target.files[0]
+      if (file) {
+        try {
+          // In a real app, you'd use proper file handling
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            this.formData.documentText = e.target.result
+          }
+          reader.readAsText(file)
+        } catch (error) {
+          console.error('Error reading file:', error)
+          this.error = 'Error reading file. Please try again.'
         }
       }
     },
-    isValidDocument(file) {
-      const validTypes = ['application/pdf', 'image/jpeg', 'image/png']
-      return validTypes.includes(file.type)
-    },
-    removeDocument(index) {
-      this.documents.splice(index, 1)
-    },
-    async verifyDocuments() {
+
+    async handleBiometricCapture() {
       try {
-        this.loading = true
-        // Simulate document verification
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        
-        // Mock successful verification
-        this.updateComplianceStatus('kyc', true)
-        this.updateComplianceStatus('aml', true)
+        // In a real app, this would interface with a biometric capture device
+        this.formData.biometricData = [0.5, 0.7, 0.3, 0.9, 0.4]
+        await loanService.enrollBiometric(1, this.formData.biometricData)
       } catch (error) {
-        console.error('Error verifying documents:', error)
-      } finally {
-        this.loading = false
+        console.error('Error capturing biometric data:', error)
+        this.error = 'Error capturing biometric data. Please try again.'
       }
     },
-    async enrollBiometric() {
+
+    async verifyCompliance() {
       try {
         this.loading = true
-        // Simulate biometric enrollment
-        await new Promise(resolve => setTimeout(resolve, 1500))
+        this.error = null
         
-        // Mock successful enrollment
-        this.updateComplianceStatus('biometric', true)
+        const userData = {
+          fullName: this.formData.fullName,
+          idNumber: this.formData.idNumber
+        }
+        
+        const transactionData = this.formData.transactionHistory
+          .split('\n')
+          .map(line => parseFloat(line.trim()))
+          .filter(num => !isNaN(num))
+
+        const response = await loanService.verifyCompliance(
+          userData,
+          this.formData.documentText,
+          transactionData,
+          this.formData.biometricData
+        )
+
+        this.verificationResult = response
       } catch (error) {
-        console.error('Error enrolling biometric:', error)
+        console.error('Error verifying compliance:', error)
+        this.error = 'Error verifying compliance. Please check your inputs and try again.'
       } finally {
         this.loading = false
-      }
-    },
-    updateComplianceStatus(id, verified) {
-      const status = this.complianceStatus.find(s => s.id === id)
-      if (status) {
-        status.status = verified ? 'verified' : 'failed'
-        status.icon = verified ? '✓' : '✗'
-        status.message = verified ? 
-          'Successfully verified' : 
-          'Verification failed'
       }
     }
   }
@@ -203,172 +161,76 @@ export default {
 
 <style scoped>
 .compliance-verification {
-  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-h2 {
-  color: var(--primary-color);
-  margin-bottom: 2rem;
-}
-
-.compliance-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.compliance-card {
-  background: var(--background-color);
-  padding: 2rem;
+.verification-form {
+  background: white;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 12px var(--shadow-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.compliance-card h3 {
-  color: var(--primary-color);
-  margin-bottom: 1.5rem;
+.form-group {
+  margin-bottom: 20px;
 }
 
-.upload-zone {
-  border: 2px dashed var(--border-color);
-  border-radius: 8px;
-  padding: 2rem;
-  text-align: center;
-  margin-bottom: 1rem;
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
 }
 
-.upload-icon {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.upload-zone input[type="file"] {
-  display: none;
-}
-
-.document-list {
-  margin-top: 1rem;
-}
-
-.document-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  background: var(--background-color);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-}
-
-.remove-btn {
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: 0 0.5rem;
-}
-
-.verify-btn {
+input[type="text"],
+input[type="file"],
+textarea {
   width: 100%;
-  margin-top: 1rem;
-}
-
-.biometric-section {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.biometric-type {
-  padding: 1rem;
-  border: 1px solid var(--border-color);
+  padding: 8px;
+  border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.biometric-type h4 {
-  margin-bottom: 0.5rem;
-}
-
-.biometric-type p {
-  margin-bottom: 1rem;
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
-.status-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.status-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 4px;
-  background: var(--background-color);
-  border: 1px solid var(--border-color);
-}
-
-.status-icon {
-  font-size: 1.5rem;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: var(--border-color);
-}
-
-.status-info h4 {
-  margin-bottom: 0.25rem;
-}
-
-.status-info p {
-  font-size: 0.875rem;
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
-.status-item.verified .status-icon {
-  background: #2ecc71;
+.verify-button {
+  background: #007bff;
   color: white;
-}
-
-.status-item.failed .status-icon {
-  background: #e74c3c;
-  color: white;
-}
-
-button {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: var(--secondary-color);
-}
-
-button:disabled {
-  background-color: var(--border-color);
+.verify-button:disabled {
+  background: #ccc;
   cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
-  .compliance-verification {
-    padding: 1rem;
-  }
-  
-  .compliance-grid {
-    grid-template-columns: 1fr;
-  }
+.error-message {
+  color: #dc3545;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #dc3545;
+  border-radius: 4px;
+  background: #f8d7da;
+}
+
+.verification-result {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.success-text {
+  color: #28a745;
+  margin-left: 10px;
+}
+
+pre {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  overflow-x: auto;
 }
 </style>

@@ -1,0 +1,112 @@
+{
+  "overall_score": {
+    "value": 85.5,
+    "grade": "Excellent",
+    "previous_score": 82.75,
+    "change": 2.75
+  },
+  "environmental": {
+    "score": 90.25,
+    "metrics": {
+      "energy_usage": {
+        "score": 85.0,
+        "unit": "kWh",
+        "current_value": 125000,
+        "target": 100000,
+        "reduction": 15.5
+      },
+      "waste_management": {
+        "score": 92.0,
+        "recycling_rate": 85.25,
+        "waste_reduced": 12.5,
+        "unit": "tonnes"
+      },
+      "resource_efficiency": {
+        "score": 78.0,
+        "water_usage": {
+          "current": 15000,
+          "target": 12000,
+          "unit": "kL"
+        },
+        "paper_usage": {
+          "current": 2500,
+          "target": 1000,
+          "unit": "reams"
+        }
+      }
+    }
+  },
+  "social": {
+    "score": 88.75,
+    "metrics": {
+      "employee_welfare": {
+        "score": 89.0,
+        "satisfaction_rate": 92.5,
+        "training_hours": 45.75,
+        "diversity_ratio": 48.5
+      },
+      "community_impact": {
+        "score": 95.0,
+        "programs": 25,
+        "beneficiaries": 15000,
+        "investment": 2500000
+      },
+      "supply_chain": {
+        "score": 82.0,
+        "local_sourcing": 75.5,
+        "supplier_audits": 95.25,
+        "ethical_compliance": 88.5
+      }
+    }
+  },
+  "governance": {
+    "score": 82.5,
+    "metrics": {
+      "board_diversity": {
+        "score": 75.0,
+        "gender_ratio": 35.5,
+        "independent_directors": 65.75
+      },
+      "ethics_compliance": {
+        "score": 88.0,
+        "training_completion": 98.5,
+        "incident_resolution": 95.25
+      },
+      "risk_management": {
+        "score": 85.0,
+        "risk_assessment": 92.5,
+        "audit_coverage": 88.75
+      }
+    }
+  },
+  "initiatives": [
+    {
+      "name": "Solar Power",
+      "category": "Environmental",
+      "metric": "40% energy from renewable sources",
+      "impact": 15.25,
+      "investment": 5000000
+    },
+    {
+      "name": "Waste Reduction",
+      "category": "Environmental",
+      "metric": "85% waste recycled",
+      "impact": 12.5,
+      "investment": 2000000
+    },
+    {
+      "name": "Community Programs",
+      "category": "Social",
+      "metric": "25 active programs",
+      "impact": 18.75,
+      "investment": 3500000
+    },
+    {
+      "name": "Green Buildings",
+      "category": "Environmental",
+      "metric": "LEED Platinum certified",
+      "impact": 20.5,
+      "investment": 8000000
+    }
+  ]
+}
