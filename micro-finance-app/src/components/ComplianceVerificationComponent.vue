@@ -57,7 +57,7 @@
             <h4>{{ type.name }}</h4>
             <p>{{ type.description }}</p>
             <button 
-              @click="enrollBiometric(type.id)"
+              @click="enrollBiometric"
               :disabled="loading"
               class="enroll-btn"
             >
@@ -161,37 +161,26 @@ export default {
     async verifyDocuments() {
       try {
         this.loading = true
-        const formData = new FormData()
-        this.documents.forEach(doc => {
-          formData.append('documents', doc)
-        })
-
-        const response = await this.axios.post('/verify_compliance', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-
-        this.updateComplianceStatus('kyc', response.data.verified)
+        // Simulate document verification
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        
+        // Mock successful verification
+        this.updateComplianceStatus('kyc', true)
+        this.updateComplianceStatus('aml', true)
       } catch (error) {
         console.error('Error verifying documents:', error)
       } finally {
         this.loading = false
       }
     },
-    async enrollBiometric(type) {
+    async enrollBiometric() {
       try {
         this.loading = true
-        // In a real implementation, this would integrate with device biometric APIs
-        const response = await this.axios.post('/enroll_biometric', {
-          user_id: 'current_user',
-          bio_type: type,
-          bio_data: 'sample_data'
-        })
-
-        if (response.data.enrolled) {
-          this.updateComplianceStatus('biometric', true)
-        }
+        // Simulate biometric enrollment
+        await new Promise(resolve => setTimeout(resolve, 1500))
+        
+        // Mock successful enrollment
+        this.updateComplianceStatus('biometric', true)
       } catch (error) {
         console.error('Error enrolling biometric:', error)
       } finally {

@@ -81,18 +81,33 @@ export default {
         employmentStatus: '',
         socialScore: 50
       },
-      esgData: null,
-      behaviorData: null
+      esgData: {
+        environmental: 85,
+        social: 75,
+        governance: 90
+      },
+      behaviorData: {
+        stability: 'High',
+        risk: 'Low'
+      }
     }
   },
   methods: {
     async assessCreditworthiness() {
       try {
         this.loading = true
-        const response = await this.axios.post('/assess_creditworthiness', {
-          data: this.creditData
+        // Simulate API call with timeout
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        // Mock response
+        const score = Math.floor((this.creditData.monthlyIncome / 5000) * 50 + 
+                               this.creditData.socialScore * 0.5)
+        
+        this.$emit('assessment-complete', {
+          score: score,
+          risk: score > 70 ? 'Low' : score > 40 ? 'Medium' : 'High',
+          recommendation: score > 70 ? 'Approved' : 'Review Required'
         })
-        this.$emit('assessment-complete', response.data)
       } catch (error) {
         console.error('Error assessing creditworthiness:', error)
       } finally {
@@ -102,12 +117,15 @@ export default {
     async trackESG() {
       try {
         this.loading = true
-        const response = await this.axios.post('/track_esg', {
-          source_data: 'user_portfolio',
-          factors: ['environmental', 'social', 'governance'],
-          impact_data: {}
-        })
-        this.esgData = response.data
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        // Random fluctuation in ESG scores
+        this.esgData = {
+          environmental: Math.min(100, this.esgData.environmental + (Math.random() * 10 - 5)),
+          social: Math.min(100, this.esgData.social + (Math.random() * 10 - 5)),
+          governance: Math.min(100, this.esgData.governance + (Math.random() * 10 - 5))
+        }
       } catch (error) {
         console.error('Error tracking ESG:', error)
       } finally {
@@ -117,14 +135,15 @@ export default {
     async analyzeBehavior() {
       try {
         this.loading = true
-        const response = await this.axios.post('/analyze_behavior', {
-          features: {
-            transactions: [],
-            social_media: [],
-            payment_history: []
-          }
-        })
-        this.behaviorData = response.data
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        // Update behavior metrics based on credit data
+        const stabilityScore = this.creditData.monthlyIncome > 3000 ? 'High' : 'Medium'
+        this.behaviorData = {
+          stability: stabilityScore,
+          risk: stabilityScore === 'High' ? 'Low' : 'Medium'
+        }
       } catch (error) {
         console.error('Error analyzing behavior:', error)
       } finally {
@@ -133,6 +152,7 @@ export default {
     }
   },
   mounted() {
+    // Initial data load
     this.trackESG()
     this.analyzeBehavior()
   }
