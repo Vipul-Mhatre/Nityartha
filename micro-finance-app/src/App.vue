@@ -27,7 +27,7 @@
     </main>
 
     <footer class="main-footer">
-      <p>&copy; {{ currentYear }} MicroFinance. All rights reserved.</p>
+      <p>&copy; {{ currentYear }} Nityartha. All rights reserved.</p>
     </footer>
   </div>
 </template>

@@ -108,7 +108,47 @@ export default {
   name: 'LoanRecommendationsComponent',
   data() {
     return {
-      loans: [],
+      loans: [
+        {
+          id: 1,
+          name: 'Business Startup Loan',
+          amount: 25000,
+          interestRate: 8.5,
+          duration: 24,
+          risk: 'medium',
+          features: [
+            'No collateral required',
+            'Flexible repayment options',
+            'Business mentorship included'
+          ]
+        },
+        {
+          id: 2,
+          name: 'Personal Development Loan',
+          amount: 10000,
+          interestRate: 7.5,
+          duration: 12,
+          risk: 'low',
+          features: [
+            'Low interest rate',
+            'Quick approval',
+            'No prepayment penalties'
+          ]
+        },
+        {
+          id: 3,
+          name: 'Agriculture Investment Loan',
+          amount: 50000,
+          interestRate: 6.5,
+          duration: 36,
+          risk: 'medium',
+          features: [
+            'Seasonal repayment structure',
+            'Technical assistance included',
+            'Weather insurance included'
+          ]
+        }
+      ],
       searchQuery: '',
       selectedRisk: '',
       sortBy: 'amount',
@@ -138,7 +178,6 @@ export default {
         )
       }
       
-      // Sort loans
       filtered.sort((a, b) => {
         if (this.sortBy === 'amount') {
           return b.amount - a.amount
@@ -156,12 +195,9 @@ export default {
     async fetchRecommendations() {
       try {
         this.loading = true
-        const response = await this.axios.post('/recommend_loans', {
-          user_id: 'current_user',
-          score: 750,
-          risk: 'medium'
-        })
-        this.loans = response.data.recommendations
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        // Using the mock data already in the loans array
       } catch (error) {
         console.error('Error fetching loan recommendations:', error)
       } finally {
@@ -175,24 +211,26 @@ export default {
     async submitApplication() {
       try {
         this.loading = true
-        await this.axios.post('/apply_loan', {
-          loan_id: this.selectedLoan.id,
-          ...this.application
-        })
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
         this.showModal = false
         this.$emit('application-submitted', {
           loan: this.selectedLoan,
           application: this.application
         })
+        
+        // Reset form
+        this.application = {
+          fullName: '',
+          email: '',
+          phone: ''
+        }
       } catch (error) {
         console.error('Error submitting loan application:', error)
       } finally {
         this.loading = false
       }
-    },
-    searchLoans() {
-      // Debounced search implementation can be added here
-      this.fetchRecommendations()
     }
   },
   mounted() {
