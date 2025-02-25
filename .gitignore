@@ -1,3 +1,54 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE and editor settings
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Operating system files
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# Vue.js project files
+public/dist/
+public/build/
+src/assets/dist/
+src/assets/build/
+
+# Vue.js temp files
+*.tmp
+*.bak
+
+# Vue.js IDE settings
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.csproj
+*.csproj.user
+
+# Vue.js build output
+/dist
 ./pkl
 venv
 env
@@ -5,3 +56,5 @@ models/saved_models/kiva_ensemble_model.pkl
 models/saved_models/kiva_rf_model.pkl
 __pycache__
 implementation.cpython-310.pyc
+
+/build
