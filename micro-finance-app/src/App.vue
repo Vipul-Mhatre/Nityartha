@@ -1,17 +1,48 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <router-view/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import FrontendComponent from './components/frontend.vue';
+import DashboardComponent from './components/DashboardComponent.vue';
+import LoanRecommendations from './components/LoanRecommendationsComponent.vue';
+import ComplianceVerification from './components/ComplianceVerificationComponent.vue';
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: FrontendComponent,
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: DashboardComponent,
+  },
+  {
+    path: '/loan-recommendations',
+    name: 'LoanRecommendations',
+    component: LoanRecommendations,
+  },
+  {
+    path: '/compliance-verification',
+    name: 'ComplianceVerification',
+    component: ComplianceVerification,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  router,
+};
 </script>
 
 <style>
