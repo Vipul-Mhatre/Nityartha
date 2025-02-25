@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'ComplianceVerificationComponent',
+  name: 'ComplianceVerification',
 };
 </script>
 

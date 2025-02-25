@@ -1,7 +1,7 @@
 <template>
   <div class="frontend">
     <div class="hero-section">
-      <h1>Welcome to Nityartha</h1>
+      <h1>Welcome to MicroFinance Solutions</h1>
       <p>Empowering financial inclusion through AI-driven solutions</p>
     </div>
 

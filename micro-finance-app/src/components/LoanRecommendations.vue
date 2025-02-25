@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'LoanRecommendationsComponent',
+  name: 'LoanRecommendations',
 };
 </script>
 
