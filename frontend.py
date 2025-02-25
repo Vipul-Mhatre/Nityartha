@@ -480,7 +480,7 @@ elif page == "Contact Us":
             st.success(f"Thank you, {name}! Your message has been sent.")
     
     st.markdown("""
-    - **Email**: support@aimicrofinance.com
+    - **Email**: mhatrevipul1518@gmail.com
     - **Phone**: +1-234-567-890
     - **Address**: 123 AI Finance St., Tech City, TC 12345
     """)
