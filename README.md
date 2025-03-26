@@ -1,4 +1,4 @@
-# Nityartha Loan Analysis AI Agent
+# Nityartha Loan Analysis AI Agent 
 
 ## Overview
 This project provides a comprehensive analysis of Nityartha loan data using machine learning techniques. The application includes a Streamlit-based frontend for interactive exploration and prediction.
