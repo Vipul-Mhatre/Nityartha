@@ -1,10 +1,12 @@
-🌸 Project Nityarth: Aisling Shanti Sakura
-An AI-Driven Micro-Finance Platform
+**🌸 Project Nityarth: Aisling Shanti Sakura**
+*An AI-Driven Micro-Finance Platform*
 
-Overview
+**Overview**
 Nityarth (meaning essential or purposeful)—under the global name Aisling Shanti Sakura—is a visionary AI-powered micro-finance platform that bridges ethical innovation with technical rigor. It provides dynamic credit assessments, robust compliance automation, behavioral insights, ESG tracking, and hyper-personalized loan recommendations for underserved communities.
 
-The name combines:
+**The name combines:**
+
+
 
 Aisling (Irish) – vision/dream
 
@@ -14,7 +16,7 @@ Sakura (Japanese) – renewal/beauty
 
 This multilingual identity reflects the platform’s core values: empowerment, integrity, sustainability, and renewal.
 
-🔧 System Modules
+**🔧 System Modules**
 1. Creditworthiness Assessment
 Trust Ripple – Fuses alternative financial signals using logarithmic weighting
 
@@ -22,7 +24,7 @@ Social Influence Score – GNN-based network influence propagation
 
 Consensus Trust + Time Decay – Combines ensemble models with dynamic score updating
 
-2. Compliance Automation
+**2. Compliance Automation**
 Identity Echo – Secure identity verification with SHA-256 hash chaining
 
 Pattern Confidence – Checks structured document patterns
@@ -31,7 +33,7 @@ Deviation Pulse – Detects anomalies using weighted deviation metrics
 
 Feature Drift + Rule Lock – Ensures biometric integrity & enforces smart-rule conditions
 
-3. Behavioral Analysis
+**3. Behavioral Analysis**
 Emotion Wave – Sentiment scoring through sine-weighted analysis
 
 Affinity Grouping – Lifestyle segmentation using k-means-like clustering
@@ -40,7 +42,7 @@ Trend Echo – Predicts behavioral stability through memory-driven models
 
 Privacy Veil – Adds privacy-preserving noise to sensitive user data
 
-4. ESG Tracking
+**4. ESG Tracking**
 Source Blend – Aggregates ESG metrics from multiple sources
 
 Impact Curve – Exponential-weighted scoring of ESG impact
@@ -49,14 +51,14 @@ Ripple Effect & Green Balance – Balances ESG with financial risk
 
 Clarity Map – Generates transparent visualizations of ESG data
 
-5. Loan Recommendation Engine
+**5. Loan Recommendation Engine**
 Preference Flow – Ranks personalized financial products
 
 Flex Terms – Dynamically computes loan amounts & rates
 
 Query Match + Learn Curve + Link Pulse – Educates users, suggests cross-sells, and interacts via NLP
 
-🧠 Tech Stack
+**🧠 Tech Stack**
 Backend: Modular RESTful APIs using a lightweight web framework
 
 Frontend: Responsive web interface with a dark blue theme
@@ -65,7 +67,7 @@ ML Models: Custom GNNs, scoring algorithms, drift detection, k-means, exponentia
 
 Security & Privacy: SHA-256, rule locks, privacy noise injection
 
-🧩 Architecture
+**🧩 Architecture**
 mermaid
 Copy
 Edit
@@ -77,7 +79,7 @@ B --> E[Behavioral Analytics]
 B --> F[ESG Tracker]
 B --> G[Loan Recommender]
 C & D & E & F & G --> H[Unified Dashboard]
-📈 Features
+**📈 Features**
 Real-time data processing
 
 Modular, scalable design
@@ -95,7 +97,7 @@ Gamified user engagement (Learn Curve)
 ESG-centric portfolio optimization ![WhatsApp Image 2025-04-09 at 12 03 08_83374472](https://github.com/user-attachments/assets/e0944c6e-9a3e-4008-8133-f8f6bd6708e4)
 
 
-🔮 Future Roadmap
+**🔮 Future Roadmap**
 Blockchain-based transparency for compliance
 
 Advanced deep learning models
