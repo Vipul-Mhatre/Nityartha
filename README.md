@@ -85,8 +85,15 @@ Modular, scalable design
 Privacy-first architecture
 
 Gamified user engagement (Learn Curve)
+![WhatsApp Image 2025-04-09 at 12 03 09_44a32a03](https://github.com/user-attachments/assets/d260eda1-fd4c-4a4e-96a6-0ee550d8f45e)
+![WhatsApp Image 2025-04-09 at 12 03 09_c6e15bf8](https://github.com/user-attachments/assets/42d49b13-65e3-4bfc-8087-1ca3428fa933)
+![WhatsApp Image 2025-04-09 at 12 03 10_714b3981](https://github.com/user-attachments/assets/e86e969b-2a32-4d07-ba4c-8ac9abe1c4bc)
 
-ESG-centric portfolio optimization
+![WhatsApp Image 2025-04-09 at 12 03 10_9c25606d](https://github.com/user-attachments/assets/b448c65b-183a-40fe-b279-03d5bf726f8f)
+
+
+ESG-centric portfolio optimization ![WhatsApp Image 2025-04-09 at 12 03 08_83374472](https://github.com/user-attachments/assets/e0944c6e-9a3e-4008-8133-f8f6bd6708e4)
+
 
 🔮 Future Roadmap
 Blockchain-based transparency for compliance
